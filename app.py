@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-# Cargar datos
+# Cargar datos desde Excel
 @st.cache_data
 def cargar_datos():
-    df = pd.read_csv("datos.csv")
+    df = pd.read_excel("01980S.xlsx")
     df["Hora"] = pd.to_datetime(df["FechaHora"]).dt.time
     df["I_Avg"] = df[["I1Avg", "I2Avg", "I3Avg"]].mean(axis=1)
     df["I_Norm"] = df["I_Avg"] / df["I_Avg"].max()
