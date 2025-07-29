@@ -19,7 +19,7 @@ df = pd.read_excel(archivo_cargado)
 df['Starttime'] = pd.to_datetime(df['Starttime'])
 df['Fecha'] = df['Starttime'].dt.date
 df['HoraMinuto'] = df['Starttime'].dt.strftime('%H:%M')
-df['I_Total'] = df['I1Avg'] + df['I2Avg'] + df['I3Avg']
+df['I_Total'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg'])/3
 df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3  # Voltaje promedio
 
 # Normalización por día
