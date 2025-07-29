@@ -51,7 +51,7 @@ st.pyplot(fig)
 
 st.subheader("Corriente promedio por hora")
 fig2, ax2 = plt.subplots(figsize=(12, 5))
-ax2.plot(curva_I_prom['HoraMinuto'], curva_I_prom['I_Promedio'], color='orange', label='Corriente Promedio')
+ax2.plot(curva_I_prom['HoraMinuto'], curva_I_prom['I_Total']/3, color='orange', label='Corriente Promedio')
 ax2.set_title('Corriente promedio diaria')
 ax2.set_xlabel('Hora')
 ax2.set_ylabel('Corriente (A)')
@@ -75,8 +75,10 @@ I_promedio_max = curva_I_prom['I_Total'].max()
 hora_max = curva_I_prom[curva_I_prom['I_Total'] == I_promedio_max]['HoraMinuto'].values[0]
 
 # Definir rango de hora pico (> 90% del valor máximo)
+curva_I_prom['I_Promedio'] = curva_I_prom['I_Total'] / 3
+I_promedio_max = curva_I_prom['I_Promedio'].max()
 umbral_pico = 0.9 * I_promedio_max
-horas_pico = curva_I_prom[curva_I_prom['I_Total'] >= umbral_pico]['HoraMinuto'].tolist()
+horas_pico = curva_I_prom[curva_I_prom['I_Promedio'] >= umbral_pico]['HoraMinuto'].tolist()
 
 st.subheader("Corriente máxima promedio trifásica alcanzada")
 st.write(f"{corriente_max_promedio:.2f} A")
