@@ -173,7 +173,14 @@ else:
 # CALCULADORA
 
 st.markdown('''
-    <h2 id="calculadora" style="color: #375a7f; background-color: #f1f4f8; padding: 12px 20px; border-radius: 8px; border-left: 6px solid #375a7f;">
+    <h2 id="calculadora" style="
+        color: white; 
+        background-color: #375a7f; 
+        padding: 14px 24px; 
+        border-radius: 10px; 
+        border-left: 6px solid #2c3e50;
+        font-size: 24px;
+    ">
         🧮 Calculadora
     </h2>
 ''', unsafe_allow_html=True)
