@@ -22,6 +22,8 @@ df['HoraMinuto'] = df['Starttime'].dt.strftime('%H:%M')
 df['I_Total'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg'])/3
 df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3  # Voltaje promedio
 
+
+
 # Normalización por día
 def normalizar_dia(grupo):
     max_corriente = grupo['I_Total'].max()
