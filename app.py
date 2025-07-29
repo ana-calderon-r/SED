@@ -73,14 +73,13 @@ with col1:
     ax2.set_xlabel('Hora')
     ax2.set_ylabel('Corriente (A)')
     ax2.grid(True)
-        
-    # 👇 Aquí va tu código para mejorar el eje X
+
     import numpy as np
-    xticks = curva_promedio['HoraMinuto'].iloc[::3]  # Mostrar cada hora
-    ax1.set_xticks(np.arange(len(curva_promedio))[::3])
-    ax1.set_xticklabels(xticks, rotation=45)
-    
-    plt.xticks(rotation=90)
+    xticks_I = curva_I_prom['HoraMinuto'].iloc[::3]  # cada hora
+    ax2.set_xticks(np.arange(len(curva_I_prom))[::3])
+    ax2.set_xticklabels(xticks_I, rotation=45)
+
+    plt.tight_layout()
     st.pyplot(fig2)
 
 with col2:
@@ -92,15 +91,12 @@ with col2:
     ax3.set_ylabel('Voltaje (V)')
     ax3.grid(True)
 
-    # 👇 Aquí va tu código para mejorar el eje X
-    import numpy as np
-    xticks = curva_promedio['HoraMinuto'].iloc[::3]  # Mostrar cada hora
-    ax1.set_xticks(np.arange(len(curva_promedio))[::3])
-    ax1.set_xticklabels(xticks, rotation=45)
-    
-    plt.xticks(rotation=90)
-    st.pyplot(fig3)
+    xticks_V = curva_V_prom['HoraMinuto'].iloc[::3]  # cada hora
+    ax3.set_xticks(np.arange(len(curva_V_prom))[::3])
+    ax3.set_xticklabels(xticks_V, rotation=45)
 
+    plt.tight_layout()
+    st.pyplot(fig3)
 # ================== CÁLCULOS EXTRA ==================
 corriente_max_promedio = df['I_Promedio'].max()
 
