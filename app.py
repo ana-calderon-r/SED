@@ -75,8 +75,8 @@ with col1:
     ax2.grid(True)
 
     import numpy as np
-    xticks_I = curva_I_prom['HoraMinuto'].iloc[::3]  # cada hora
-    ax2.set_xticks(np.arange(len(curva_I_prom))[::3])
+    xticks_I = curva_I_prom['HoraMinuto'].iloc[::6]  # cada hora
+    ax2.set_xticks(np.arange(len(curva_I_prom))[::6])
     ax2.set_xticklabels(xticks_I, rotation=45)
 
     plt.tight_layout()
