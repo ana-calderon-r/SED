@@ -52,13 +52,15 @@ ax1.set_title('Curva Promedio Normalizada')
 ax1.set_xlabel('Hora')
 ax1.set_ylabel('Corriente Normalizada')
 ax1.grid(True)
-plt.xticks(rotation=90)
-st.pyplot(fig1)
 
-# Mostrar etiquetas cada X puntos
-xticks = curva_promedio['HoraMinuto'].iloc[::3]
+# 👇 Aquí va tu código para mejorar el eje X
+import numpy as np
+xticks = curva_promedio['HoraMinuto'].iloc[::3]  # Mostrar cada hora
 ax1.set_xticks(np.arange(len(curva_promedio))[::3])
 ax1.set_xticklabels(xticks, rotation=45)
+
+plt.xticks(rotation=90)
+st.pyplot(fig1)
 
 # Corriente promedio por hora y Voltaje promedio por hora juntos
 col1, col2 = st.columns(2)
