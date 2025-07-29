@@ -14,13 +14,9 @@ with col_logo:
     st.image(logo_path, width=100)
 with col_title:
     st.markdown("""
-        <h1 style='margin-bottom: 0;'>Estimador de Corriente</h1>
-        <p style='margin-top: 0; color: gray;'>Visualización y estimación de Sistemas Eléctricos de Distribución</p>
+        <h1 style='margin-bottom: 0;'>Visualización y estimación de Sistemas Eléctricos de Distribución</h1>
     """, unsafe_allow_html=True)
     
-# Luego el título también centrado
-st.markdown("<h2 style='text-align: center;'>Visualización y estimación de Sistemas Eléctricos de Distribución</h2>", unsafe_allow_html=True)
-
 # ======= Menú =======
 menu = st.selectbox("Selecciona una opción", ["Diagramas", "Datos", "Calculadora"])
 
