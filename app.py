@@ -10,7 +10,7 @@ st.set_page_config(layout="wide")
 st.markdown("""
     <div style="background-color: #005fba; padding: 20px; border-radius: 10px; text-align: center;">
         <h1 style="color: white; font-family: 'Times New Roman', Times, serif;">
-            Estimación de Corriente en Sistemas Trifásicos
+            Estimador de Corriente
         </h1>
     </div>
 """, unsafe_allow_html=True)
