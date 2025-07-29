@@ -75,7 +75,7 @@ hora_max = curva_I_prom[curva_I_prom['I_Total_2'] == I_promedio_max]['HoraMinuto
 
 # Definir rango de hora pico (> 90% del valor máximo)
 umbral_pico = 0.9 * I_promedio_max
-horas_pico = curva_I_prom[curva_I_prom['I_Total'] >= umbral_pico]['HoraMinuto'].tolist()
+horas_pico = curva_I_prom[curva_I_prom['I_Total_2'] >= umbral_pico]['HoraMinuto'].tolist()
 
 st.subheader("Análisis de Corriente Promedio")
 st.info(f"🌟 La corriente máxima promedio fue de **{I_promedio_max:.2f} A** a las **{hora_max}**.")
