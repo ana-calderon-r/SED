@@ -45,15 +45,15 @@ curva_V_prom = df.groupby('HoraMinuto')['V_Total'].mean().reset_index()
 # ================== GRÁFICAS ==================
 
 # Curva normalizada principal
-st.subheader("Curva promedio normalizada (General)")
+st.subheader("Curva normalizada")
 fig1, ax1 = plt.subplots(figsize=(12, 5))
 ax1.plot(curva_promedio['HoraMinuto'], curva_promedio['I_Norm'], label='Corriente Normalizada')
-ax1.set_title('Curva Promedio Normalizada')
+ax1.set_title('Factores normalizados')
 ax1.set_xlabel('Hora')
 ax1.set_ylabel('Corriente Normalizada')
 ax1.grid(True)
 
-# 👇 Aquí va tu código para mejorar el eje X
+# Espaciado en el eje X
 import numpy as np
 xticks = curva_promedio['HoraMinuto'].iloc[::3]  # Mostrar cada hora
 ax1.set_xticks(np.arange(len(curva_promedio))[::3])
