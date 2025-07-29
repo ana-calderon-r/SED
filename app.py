@@ -60,7 +60,7 @@ st.markdown("""
 st.markdown("""
     <style>
     div[data-baseweb="select"] > div {
-        background-color: #32CD32 !important;
+        background-color: #DFF5E1 !important;
         border-radius: 8px !important;
         border: 1px solid #74A84C !important;
     }
