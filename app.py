@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 
 # ======= Encabezado con Logo =======
 
-logo_path = "data/logo_pluz.png"  # asegúrate de que la ruta sea correcta
+logo_path = "data/logo-blanco.png"  # asegúrate de que la ruta sea correcta
 col_logo, col_title = st.columns([1, 5])
 with col_logo:
     st.image(logo_path, width=100)
