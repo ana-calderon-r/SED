@@ -95,7 +95,17 @@ curva_V_prom = df.groupby('HoraMinuto')['V_Total'].mean().reset_index()
 
 # DIAGRAMAS
 
-st.markdown('<h2 id="diagramas">Diagramas</h2>', unsafe_allow_html=True)
+st.markdown('''
+    <h2 id="calculadora" style="
+        color: white; 
+        background-color: #2F56A6; 
+        padding: 14px 24px; 
+        border-radius: 10px; 
+        font-size: 18px;
+    ">
+        Diagramas
+    </h2>
+''', unsafe_allow_html=True)
 
 # Curva normalizada principal
 st.subheader("Curva normalizada")
@@ -152,7 +162,17 @@ with col2:
     st.pyplot(fig3)
 # DATOS
 
-st.markdown('<h2 id="datos">Datos</h2>', unsafe_allow_html=True)
+st.markdown('''
+    <h2 id="calculadora" style="
+        color: white; 
+        background-color: #2F56A6; 
+        padding: 14px 24px; 
+        border-radius: 10px; 
+        font-size: 18px;
+    ">
+        Datos
+    </h2>
+''', unsafe_allow_html=True)
 
 corriente_max_promedio = df['I_Promedio'].max()
 
