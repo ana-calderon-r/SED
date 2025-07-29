@@ -58,6 +58,40 @@ try:
 except IndexError:
     st.error("Verifica que las horas ingresadas existan en los datos.")
 
+if archivo_seleccionado:
+    df = pd.read_excel(os.path.join(DATA_DIR, archivo_seleccionado))
+
+    # Asegura que la columna de tiempo sea datetime
+    df["Fecha"] = pd.to_datetime(df["Fecha"])
+
+    # Calcular voltaje promedio y corriente promedio por fila
+    df["Voltaje Promedio"] = df[["U1Avg", "U2Avg", "U3Avg"]].mean(axis=1)
+    df["Corriente Promedio"] = df[["I1Avg", "I2Avg", "I3Avg"]].mean(axis=1)
+
+    # Mostrar las primeras filas si quieres validar
+    st.write("Primeras filas del archivo cargado:")
+    st.dataframe(df.head())
+
+    # Gráfico 1: Voltaje promedio vs. tiempo
+    fig1, ax1 = plt.subplots()
+    ax1.plot(df["Fecha"], df["Voltaje Promedio"], color="blue", label="Voltaje Promedio")
+    ax1.set_title("Voltaje Promedio vs. Tiempo")
+    ax1.set_xlabel("Fecha y Hora")
+    ax1.set_ylabel("Voltaje (V)")
+    ax1.legend()
+    ax1.grid(True)
+    st.pyplot(fig1)
+
+    # Gráfico 2: Corriente promedio vs. tiempo
+    fig2, ax2 = plt.subplots()
+    ax2.plot(df["Fecha"], df["Corriente Promedio"], color="green", label="Corriente Promedio")
+    ax2.set_title("Corriente Promedio vs. Tiempo")
+    ax2.set_xlabel("Fecha y Hora")
+    ax2.set_ylabel("Corriente (A)")
+    ax2.legend()
+    ax2.grid(True)
+    st.pyplot(fig2)
+
 # Rango de horas pico
 st.subheader("Rango de horas pico")
 umbral = 0.90 * curva_promedio['I_Norm'].max()
