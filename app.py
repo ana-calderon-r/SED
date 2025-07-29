@@ -65,6 +65,22 @@ ax3.grid(True)
 plt.xticks(rotation=90)
 st.pyplot(fig3)
 
+I_promedio_max = curva_I_prom['I_Total'].max()
+hora_max = curva_I_prom[curva_I_prom['I_Total'] == I_promedio_max]['HoraMinuto'].values[0]
+
+# Definir rango de hora pico (> 90% del valor máximo)
+umbral_pico = 0.9 * I_promedio_max
+horas_pico = curva_I_prom[curva_I_prom['I_Total'] >= umbral_pico]['HoraMinuto'].tolist()
+
+st.subheader("Análisis de Corriente Promedio")
+st.info(f"🌟 La corriente máxima promedio fue de **{I_promedio_max:.2f} A** a las **{hora_max}**.")
+
+if horas_pico:
+    st.info(f"⏰ Rango de horas pico (corriente promedio ≥ 90% del valor máximo):")
+    st.write(", ".join(horas_pico))
+else:
+    st.warning("No se encontraron horas pico con corriente promedio ≥ 90% del valor máximo.")
+
 # Entrada del usuario
 st.subheader("Estimación de corriente")
 hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="10:20")
