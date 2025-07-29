@@ -5,6 +5,8 @@ import os
 
 # Ruta a la carpeta con tus archivos
 DATA_DIR = "data"
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
 
 # Lista de archivos disponibles
 archivos_sed = [f for f in os.listdir(DATA_DIR) if f.endswith(".xlsx")]
