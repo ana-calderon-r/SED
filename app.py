@@ -175,7 +175,7 @@ else:
 st.markdown('''
     <h2 id="calculadora" style="
         color: white; 
-        background-color: #375a7f; 
+        background-color: #2F56A6; 
         padding: 14px 24px; 
         border-radius: 10px; 
         border-left: 6px solid #2c3e50;
