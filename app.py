@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import numpy as np
+
+st.set_page_config(layout="wide")
 
 # Estilos y título principal
 st.markdown("""
@@ -51,6 +54,11 @@ ax1.set_ylabel('Corriente Normalizada')
 ax1.grid(True)
 plt.xticks(rotation=90)
 st.pyplot(fig1)
+
+# Mostrar etiquetas cada X puntos
+xticks = curva_promedio['HoraMinuto'].iloc[::3]
+ax1.set_xticks(np.arange(len(curva_promedio))[::3])
+ax1.set_xticklabels(xticks, rotation=45)
 
 # Corriente promedio por hora y Voltaje promedio por hora juntos
 col1, col2 = st.columns(2)
