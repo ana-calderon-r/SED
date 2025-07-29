@@ -29,7 +29,7 @@ def normalizar_dia(grupo):
 df_norm = df.groupby('Fecha', group_keys=False).apply(normalizar_dia)
 curva_promedio = df_norm.groupby('HoraMinuto')['I_Norm'].mean().reset_index()
 
-# Gráfica
+# Gráfica 1: Curva promedio normalizada
 st.subheader("Curva promedio normalizada")
 fig, ax = plt.subplots(figsize=(12, 5))
 ax.plot(curva_promedio['HoraMinuto'], curva_promedio['I_Norm'])
@@ -39,6 +39,31 @@ ax.set_ylabel('Corriente normalizada')
 ax.grid(True)
 plt.xticks(rotation=90)
 st.pyplot(fig)
+
+# NUEVO: Gráfica 2 – Corriente promedio total por hora
+st.subheader("Corriente promedio total por hora")
+corriente_prom = df.groupby('HoraMinuto')['I_Total'].mean().reset_index()
+fig2, ax2 = plt.subplots(figsize=(12, 5))
+ax2.plot(corriente_prom['HoraMinuto'], corriente_prom['I_Total'], color='orange')
+ax2.set_title('Corriente promedio total por hora')
+ax2.set_xlabel('Hora')
+ax2.set_ylabel('Corriente (A)')
+ax2.grid(True)
+plt.xticks(rotation=90)
+st.pyplot(fig2)
+
+# NUEVO: Gráfica 3 – Voltaje promedio por hora
+st.subheader("Voltaje promedio por hora")
+df['V_Prom'] = df[['U1Avg', 'U2Avg', 'U3Avg']].mean(axis=1)
+voltaje_prom = df.groupby('HoraMinuto')['V_Prom'].mean().reset_index()
+fig3, ax3 = plt.subplots(figsize=(12, 5))
+ax3.plot(voltaje_prom['HoraMinuto'], voltaje_prom['V_Prom'], color='green')
+ax3.set_title('Voltaje promedio por hora')
+ax3.set_xlabel('Hora')
+ax3.set_ylabel('Voltaje (V)')
+ax3.grid(True)
+plt.xticks(rotation=90)
+st.pyplot(fig3)
 
 # Entrada del usuario
 st.subheader("Estimación de corriente")
@@ -57,43 +82,3 @@ try:
     st.success(f"I estimada a las {hora_objetivo}: {I_estimado:.2f} A")
 except IndexError:
     st.error("Verifica que las horas ingresadas existan en los datos.")
-
-if archivo_seleccionado:
-    df = pd.read_excel(os.path.join(DATA_DIR, archivo_seleccionado))
-
-    # Asegura que la columna de tiempo sea datetime
-    df["Fecha"] = pd.to_datetime(df["Fecha"])
-
-    # Calcular voltaje promedio y corriente promedio por fila
-    df["Voltaje Promedio"] = df[["U1Avg", "U2Avg", "U3Avg"]].mean(axis=1)
-    df["Corriente Promedio"] = df[["I1Avg", "I2Avg", "I3Avg"]].mean(axis=1)
-
-    # Mostrar las primeras filas si quieres validar
-    st.write("Primeras filas del archivo cargado:")
-    st.dataframe(df.head())
-
-    # Gráfico 1: Voltaje promedio vs. tiempo
-    fig1, ax1 = plt.subplots()
-    ax1.plot(df["Fecha"], df["Voltaje Promedio"], color="blue", label="Voltaje Promedio")
-    ax1.set_title("Voltaje Promedio vs. Tiempo")
-    ax1.set_xlabel("Fecha y Hora")
-    ax1.set_ylabel("Voltaje (V)")
-    ax1.legend()
-    ax1.grid(True)
-    st.pyplot(fig1)
-
-    # Gráfico 2: Corriente promedio vs. tiempo
-    fig2, ax2 = plt.subplots()
-    ax2.plot(df["Fecha"], df["Corriente Promedio"], color="green", label="Corriente Promedio")
-    ax2.set_title("Corriente Promedio vs. Tiempo")
-    ax2.set_xlabel("Fecha y Hora")
-    ax2.set_ylabel("Corriente (A)")
-    ax2.legend()
-    ax2.grid(True)
-    st.pyplot(fig2)
-
-# Rango de horas pico
-st.subheader("Rango de horas pico")
-umbral = 0.90 * curva_promedio['I_Norm'].max()
-horas_pico = curva_promedio[curva_promedio['I_Norm'] >= umbral]
-st.dataframe(horas_pico)
