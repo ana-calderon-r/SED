@@ -12,8 +12,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Imagen decorativa (opcional)
-st.image("data/imagen_portada.png", use_column_width=True)  # Asegúrate que la imagen esté en /data
 
 # ================== CARGA DE ARCHIVOS ==================
 DATA_DIR = "data"
