@@ -7,14 +7,17 @@ import numpy as np
 st.set_page_config(layout="wide")
 
 # ======= Encabezado con Logo =======
-st.markdown(
-    """
-    <div style="text-align: center;">
-        <img src="https://your_image_url_or_base64" width="150">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+
+logo_path = "data/logo_pluz.png"  # asegúrate de que la ruta sea correcta
+col_logo, col_title = st.columns([1, 5])
+with col_logo:
+    st.image(logo_path, width=100)
+with col_title:
+    st.markdown("""
+        <h1 style='margin-bottom: 0;'>Estimador de Corriente</h1>
+        <p style='margin-top: 0; color: gray;'>Visualización y estimación de Sistemas Eléctricos de Distribución</p>
+    """, unsafe_allow_html=True)
+    
 # Luego el título también centrado
 st.markdown("<h2 style='text-align: center;'>Visualización y estimación de Sistemas Eléctricos de Distribución</h2>", unsafe_allow_html=True)
 
