@@ -98,7 +98,7 @@ curva_V_prom = df.groupby('HoraMinuto')['V_Total'].mean().reset_index()
 st.markdown('''
     <h2 id="calculadora" style="
         color: white; 
-        background-color: #2F56A6; 
+        background-color: #FFF4B2; 
         padding: 14px 24px; 
         border-radius: 10px; 
         font-size: 18px;
