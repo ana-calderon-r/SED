@@ -41,10 +41,11 @@ st.markdown("""
     .menu-container a {
         text-decoration: none;
         font-weight: bold;
-        color: #333;
+        color: white;
+        font-size: 18px;
     }
     .menu-container a:hover {
-        color: #1f77b4;
+        color: #F7C948;
     }
     </style>
     <div class="menu-container">
@@ -53,7 +54,6 @@ st.markdown("""
         <a href="#calculadora">Calculadora</a>
     </div>
 """, unsafe_allow_html=True)
-
 
 
 # ================== CARGA DE ARCHIVOS ==================
