@@ -6,14 +6,20 @@ import numpy as np
 
 st.set_page_config(layout="wide")
 
-# Estilos y título principal
-st.markdown("""
-    <div style="background-color: #005fba; padding: 20px; border-radius: 10px; text-align: center;">
-        <h1 style="color: white; font-family: 'Times New Roman', Times, serif;">
-            Estimador de Corriente
-        </h1>
-    </div>
-""", unsafe_allow_html=True)
+# ======= Encabezado con Logo =======
+logo_path = "data/logo_pluz.png"  # asegúrate de que la ruta sea correcta
+col_logo, col_title = st.columns([1, 5])
+with col_logo:
+    st.image(logo_path, width=100)
+with col_title:
+    st.markdown("""
+        <h1 style='margin-bottom: 0;'>Estimador de Corriente</h1>
+        <p style='margin-top: 0; color: gray;'>Visualización y estimación de Sistemas Eléctricos de Distribución</p>
+    """, unsafe_allow_html=True)
+
+# ======= Menú =======
+menu = st.selectbox("Selecciona una opción", ["Diagramas", "Datos", "Calculadora"])
+
 
 
 # ================== CARGA DE ARCHIVOS ==================
