@@ -93,7 +93,9 @@ curva_promedio = df_norm.groupby('HoraMinuto')['I_Norm'].mean().reset_index()
 curva_I_prom = df.groupby('HoraMinuto')['I_Total'].mean().reset_index()
 curva_V_prom = df.groupby('HoraMinuto')['V_Total'].mean().reset_index()
 
-# ================== GRÁFICAS ==================
+# DIAGRAMAS
+
+st.markdown('<h2 id="diagramas">Diagramas</h2>', unsafe_allow_html=True)
 
 # Curva normalizada principal
 st.subheader("Curva normalizada")
@@ -148,7 +150,10 @@ with col2:
 
     plt.tight_layout()
     st.pyplot(fig3)
-# ================== CÁLCULOS EXTRA ==================
+# DATOS
+
+st.markdown('<h2 id="datos">Datos</h2>', unsafe_allow_html=True)
+
 corriente_max_promedio = df['I_Promedio'].max()
 
 curva_I_prom['I_Promedio'] = curva_I_prom['I_Total'] / 3
@@ -165,7 +170,10 @@ if horas_pico:
 else:
     st.warning("No se encontraron horas pico con corriente promedio ≥ 90% del valor máximo.")
 
-# ================== ESTIMACIÓN ==================
+# CALCULADORA
+
+st.markdown('<h2 id="calculadora">Calculadora</h2>', unsafe_allow_html=True)
+
 st.subheader("Estimación de corriente")
 
 hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="10:20")
