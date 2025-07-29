@@ -178,7 +178,7 @@ st.markdown('''
         background-color: #2F56A6; 
         padding: 14px 24px; 
         border-radius: 10px; 
-        font-size: 16px;
+        font-size: 18px;
     ">
         Calculadora
     </h2>
