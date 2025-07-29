@@ -20,19 +20,25 @@ df['Starttime'] = pd.to_datetime(df['Starttime'])
 df['Fecha'] = df['Starttime'].dt.date
 df['HoraMinuto'] = df['Starttime'].dt.strftime('%H:%M')
 df['I_Total'] = df['I1Avg'] + df['I2Avg'] + df['I3Avg']
+df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3  # Voltaje promedio
 
+# Normalización por día
 def normalizar_dia(grupo):
     max_corriente = grupo['I_Total'].max()
     grupo['I_Norm'] = grupo['I_Total'] / max_corriente
     return grupo
 
 df_norm = df.groupby('Fecha', group_keys=False).apply(normalizar_dia)
-curva_promedio = df_norm.groupby('HoraMinuto')['I_Norm'].mean().reset_index()
 
-# Gráfica 1: Curva promedio normalizada
+# Curvas promedio
+curva_promedio = df_norm.groupby('HoraMinuto')['I_Norm'].mean().reset_index()
+curva_I_prom = df.groupby('HoraMinuto')['I_Total'].mean().reset_index()
+curva_V_prom = df.groupby('HoraMinuto')['V_Total'].mean().reset_index()
+
+# ================== GRÁFICAS ==================
 st.subheader("Curva promedio normalizada")
 fig, ax = plt.subplots(figsize=(12, 5))
-ax.plot(curva_promedio['HoraMinuto'], curva_promedio['I_Norm'])
+ax.plot(curva_promedio['HoraMinuto'], curva_promedio['I_Norm'], label='Corriente Normalizada')
 ax.set_title('Curva promedio normalizada')
 ax.set_xlabel('Hora')
 ax.set_ylabel('Corriente normalizada')
@@ -40,31 +46,27 @@ ax.grid(True)
 plt.xticks(rotation=90)
 st.pyplot(fig)
 
-# NUEVO: Gráfica 2 – Corriente promedio total por hora
-st.subheader("Corriente promedio total por hora")
-corriente_prom = df.groupby('HoraMinuto')['I_Total'].mean().reset_index()
+st.subheader("Corriente promedio por hora")
 fig2, ax2 = plt.subplots(figsize=(12, 5))
-ax2.plot(corriente_prom['HoraMinuto'], corriente_prom['I_Total'], color='orange')
-ax2.set_title('Corriente promedio total por hora')
+ax2.plot(curva_I_prom['HoraMinuto'], curva_I_prom['I_Total'], color='orange', label='Corriente Promedio')
+ax2.set_title('Corriente promedio diaria')
 ax2.set_xlabel('Hora')
 ax2.set_ylabel('Corriente (A)')
 ax2.grid(True)
 plt.xticks(rotation=90)
 st.pyplot(fig2)
 
-# NUEVO: Gráfica 3 – Voltaje promedio por hora
 st.subheader("Voltaje promedio por hora")
-df['V_Prom'] = df[['U1Avg', 'U2Avg', 'U3Avg']].mean(axis=1)
-voltaje_prom = df.groupby('HoraMinuto')['V_Prom'].mean().reset_index()
 fig3, ax3 = plt.subplots(figsize=(12, 5))
-ax3.plot(voltaje_prom['HoraMinuto'], voltaje_prom['V_Prom'], color='green')
-ax3.set_title('Voltaje promedio por hora')
+ax3.plot(curva_V_prom['HoraMinuto'], curva_V_prom['V_Total'], color='green', label='Voltaje Promedio')
+ax3.set_title('Voltaje promedio diario')
 ax3.set_xlabel('Hora')
 ax3.set_ylabel('Voltaje (V)')
 ax3.grid(True)
 plt.xticks(rotation=90)
 st.pyplot(fig3)
 
+# ================== CÁLCULOS EXTRA ==================
 I_promedio_max = curva_I_prom['I_Total'].max()
 hora_max = curva_I_prom[curva_I_prom['I_Total'] == I_promedio_max]['HoraMinuto'].values[0]
 
@@ -81,7 +83,7 @@ if horas_pico:
 else:
     st.warning("No se encontraron horas pico con corriente promedio ≥ 90% del valor máximo.")
 
-# Entrada del usuario
+# ================== ESTIMACIÓN ==================
 st.subheader("Estimación de corriente")
 hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="10:20")
 corriente_medida = st.number_input("Corriente medida en esa hora (A)", value=100.0)
