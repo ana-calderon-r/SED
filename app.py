@@ -91,8 +91,8 @@ with col2:
     ax3.set_ylabel('Voltaje (V)')
     ax3.grid(True)
 
-    xticks_V = curva_V_prom['HoraMinuto'].iloc[::3]  # cada hora
-    ax3.set_xticks(np.arange(len(curva_V_prom))[::3])
+    xticks_V = curva_V_prom['HoraMinuto'].iloc[::6]  # cada hora
+    ax3.set_xticks(np.arange(len(curva_V_prom))[::6])
     ax3.set_xticklabels(xticks_V, rotation=45)
 
     plt.tight_layout()
