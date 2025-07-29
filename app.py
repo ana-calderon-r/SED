@@ -3,22 +3,56 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import numpy as np
+import base64
 
 st.set_page_config(layout="wide")
 
 # ======= Encabezado con Logo =======
 
-logo_path = "data/logo-blanco.png"  # asegúrate de que la ruta sea correcta
-col_logo, col_title = st.columns([1, 5])
-with col_logo:
-    st.image(logo_path, width=100)
-with col_title:
-    st.markdown("""
-        <h1 style='margin-bottom: 0;'>Visualización y estimación de Sistemas Eléctricos de Distribución</h1>
-    """, unsafe_allow_html=True)
+logo_path = "data/logo-blanco.png"  
+
+st.markdown(
+    f"""
+    <div style="text-align: center;">
+        <img src="data:image/png;base64,{base64.b64encode(open(logo_path, "rb").read()).decode()}" width="120"/>
+        <h1 style="margin-top: 10px;">Visualización y estimación de Sistemas Eléctricos de Distribución</h1>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
     
-# ======= Menú =======
-menu = st.selectbox("Selecciona una opción", ["Diagramas", "Datos", "Calculadora"])
+# ======= Menú Horizontal =======
+menu_options = {
+    "Diagramas": "#diagramas",
+    "Datos": "#datos",
+    "Calculadora": "#calculadora"
+}
+
+st.markdown("""
+    <style>
+    .menu-container {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        background-color: #f0f2f6;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .menu-container a {
+        text-decoration: none;
+        font-weight: bold;
+        color: #333;
+    }
+    .menu-container a:hover {
+        color: #1f77b4;
+    }
+    </style>
+    <div class="menu-container">
+        <a href="#diagramas">Diagramas</a>
+        <a href="#datos">Datos</a>
+        <a href="#calculadora">Calculadora</a>
+    </div>
+""", unsafe_allow_html=True)
 
 
 
