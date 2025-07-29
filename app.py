@@ -14,8 +14,8 @@ logo_path = "data/logo-blanco.png"
 st.markdown(
     f"""
     <div style="text-align: center;">
-        <img src="data:image/png;base64,{base64.b64encode(open(logo_path, "rb").read()).decode()}" width="200"/>
-        <h1 style="margin-top: 10px;">Visualización y estimación de Sistemas Eléctricos de Distribución</h1>
+        <img src="data:image/png;base64,{base64.b64encode(open(logo_path, "rb").read()).decode()}" width="160"/>
+        <h1 style="margin-top: 8px;">Visualización y estimación de Sistemas Eléctricos de Distribución</h1>
     </div>
     """,
     unsafe_allow_html=True
