@@ -178,10 +178,9 @@ st.markdown('''
         background-color: #2F56A6; 
         padding: 14px 24px; 
         border-radius: 10px; 
-        border-left: 6px solid #2c3e50;
-        font-size: 24px;
+        font-size: 10px;
     ">
-        🧮 Calculadora
+        Calculadora
     </h2>
 ''', unsafe_allow_html=True)
 
