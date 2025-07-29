@@ -20,7 +20,6 @@ df['Starttime'] = pd.to_datetime(df['Starttime'])
 df['Fecha'] = df['Starttime'].dt.date
 df['HoraMinuto'] = df['Starttime'].dt.strftime('%H:%M')
 df['I_Total'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg'])
-df['I_Total_2'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg']) / 3
 df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3  # Voltaje promedio
 
 
@@ -35,7 +34,7 @@ df_norm = df.groupby('Fecha', group_keys=False).apply(normalizar_dia)
 
 # Curvas promedio
 curva_promedio = df_norm.groupby('HoraMinuto')['I_Norm'].mean().reset_index()
-curva_I_prom = df.groupby('HoraMinuto')['I_Total_2'].mean().reset_index()
+curva_I_prom = df.groupby('HoraMinuto')['I_Total'].mean().reset_index()
 curva_V_prom = df.groupby('HoraMinuto')['V_Total'].mean().reset_index()
 
 # ================== GRÁFICAS ==================
@@ -51,7 +50,7 @@ st.pyplot(fig)
 
 st.subheader("Corriente promedio por hora")
 fig2, ax2 = plt.subplots(figsize=(12, 5))
-ax2.plot(curva_I_prom['HoraMinuto'], curva_I_prom['I_Total_2'], color='orange', label='Corriente Promedio')
+ax2.plot(curva_I_prom['HoraMinuto'], curva_I_prom['I_Total'], color='orange', label='Corriente Promedio')
 ax2.set_title('Corriente promedio diaria')
 ax2.set_xlabel('Hora')
 ax2.set_ylabel('Corriente (A)')
@@ -70,12 +69,12 @@ plt.xticks(rotation=90)
 st.pyplot(fig3)
 
 # ================== CÁLCULOS EXTRA ==================
-I_promedio_max = curva_I_prom['I_Total_2'].max()
-hora_max = curva_I_prom[curva_I_prom['I_Total_2'] == I_promedio_max]['HoraMinuto'].values[0]
+I_promedio_max = curva_I_prom['I_Total'].max()
+hora_max = curva_I_prom[curva_I_prom['I_Total'] == I_promedio_max]['HoraMinuto'].values[0]
 
 # Definir rango de hora pico (> 90% del valor máximo)
 umbral_pico = 0.9 * I_promedio_max
-horas_pico = curva_I_prom[curva_I_prom['I_Total_2'] >= umbral_pico]['HoraMinuto'].tolist()
+horas_pico = curva_I_prom[curva_I_prom['I_Total'] >= umbral_pico]['HoraMinuto'].tolist()
 
 st.subheader("Análisis de Corriente Promedio")
 st.info(f"🌟 La corriente máxima promedio fue de **{I_promedio_max:.2f} A** a las **{hora_max}**.")
