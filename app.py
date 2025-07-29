@@ -20,6 +20,7 @@ df['Starttime'] = pd.to_datetime(df['Starttime'])
 df['Fecha'] = df['Starttime'].dt.date
 df['HoraMinuto'] = df['Starttime'].dt.strftime('%H:%M')
 df['I_Total'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg'])
+df['I_Promedio'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg']) / 3
 df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3  # Voltaje promedio
 
 
@@ -69,6 +70,7 @@ plt.xticks(rotation=90)
 st.pyplot(fig3)
 
 # ================== CÁLCULOS EXTRA ==================
+corriente_max_promedio = df['I_Promedio'].max()
 I_promedio_max = curva_I_prom['I_Total'].max()
 hora_max = curva_I_prom[curva_I_prom['I_Total'] == I_promedio_max]['HoraMinuto'].values[0]
 
@@ -76,8 +78,8 @@ hora_max = curva_I_prom[curva_I_prom['I_Total'] == I_promedio_max]['HoraMinuto']
 umbral_pico = 0.9 * I_promedio_max
 horas_pico = curva_I_prom[curva_I_prom['I_Total'] >= umbral_pico]['HoraMinuto'].tolist()
 
-st.subheader("Análisis de Corriente Promedio")
-st.info(f"🌟 La corriente máxima promedio fue de **{I_promedio_max:.2f} A** a las **{hora_max}**.")
+st.subheader("Corriente máxima promedio trifásica alcanzada")
+st.write(f"{corriente_max_promedio:.2f} A")
 
 if horas_pico:
     st.info(f"⏰ Rango de horas pico (corriente promedio ≥ 90% del valor máximo):")
