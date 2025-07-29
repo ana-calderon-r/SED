@@ -164,8 +164,8 @@ with col2:
 
 st.markdown('''
     <h2 id="calculadora" style="
-        color: white; 
-        background-color: #2F56A6; 
+        color: black; 
+        background-color: #FFE45C; 
         padding: 14px 24px; 
         border-radius: 10px; 
         font-size: 18px;
@@ -194,8 +194,8 @@ else:
 
 st.markdown('''
     <h2 id="calculadora" style="
-        color: white; 
-        background-color: #2F56A6; 
+        color: black; 
+        background-color: #FFE45C; 
         padding: 14px 24px; 
         border-radius: 10px; 
         font-size: 18px;
