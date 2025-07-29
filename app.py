@@ -172,7 +172,11 @@ else:
 
 # CALCULADORA
 
-st.markdown('<h2 id="calculadora">Calculadora</h2>', unsafe_allow_html=True)
+st.markdown('''
+    <h2 id="calculadora" style="color: #375a7f; background-color: #f1f4f8; padding: 12px 20px; border-radius: 8px; border-left: 6px solid #375a7f;">
+        🧮 Calculadora
+    </h2>
+''', unsafe_allow_html=True)
 
 st.subheader("Estimación de corriente")
 
