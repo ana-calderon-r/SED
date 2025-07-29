@@ -15,7 +15,7 @@ st.markdown(
     f"""
     <div style="text-align: center;">
         <img src="data:image/png;base64,{base64.b64encode(open(logo_path, "rb").read()).decode()}" width="160"/>
-        <h1 style="margin-top: 8px; color: #7a89b8;">Visualización y estimación de Sistemas Eléctricos de Distribución</h1>
+        <h1 style="margin-top: 8px; color: #2e4372;">Visualización y estimación de Sistemas Eléctricos de Distribución</h1>
     </div>
     """,
     unsafe_allow_html=True
