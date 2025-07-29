@@ -50,7 +50,7 @@ st.pyplot(fig)
 
 st.subheader("Corriente promedio por hora")
 fig2, ax2 = plt.subplots(figsize=(12, 5))
-ax2.plot(curva_I_prom['HoraMinuto'], curva_I_prom['I_Total'], color='orange', label='Corriente Promedio')
+ax2.plot(curva_I_prom['HoraMinuto'], curva_I_prom['I_Total']/3, color='orange', label='Corriente Promedio')
 ax2.set_title('Corriente promedio diaria')
 ax2.set_xlabel('Hora')
 ax2.set_ylabel('Corriente (A)')
