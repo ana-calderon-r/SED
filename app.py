@@ -108,13 +108,24 @@ st.markdown('''
 ''', unsafe_allow_html=True)
 
 # Curva normalizada principal
-st.subheader("Curva normalizada")
+
+st.markdown('<h3 style="color:#2F56A6;">📈 Curva normalizada</h3>', unsafe_allow_html=True)
+st.markdown('<div style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">', unsafe_allow_html=True)
+
 fig1, ax1 = plt.subplots(figsize=(12, 5))
-ax1.plot(curva_promedio['HoraMinuto'], curva_promedio['I_Norm'], label='Corriente Normalizada')
-ax1.set_title('Factores normalizados')
+ax1.plot(curva_promedio['HoraMinuto'], curva_promedio['I_Norm'], label='Corriente Normalizada', color='#2F56A6')
+ax1.set_title('Factores normalizados', fontsize=14)
 ax1.set_xlabel('Hora')
 ax1.set_ylabel('Corriente Normalizada')
 ax1.grid(True)
+ax1.legend()
+xticks = curva_promedio['HoraMinuto'].iloc[::3]
+ax1.set_xticks(np.arange(len(curva_promedio))[::3])
+ax1.set_xticklabels(xticks, rotation=45)
+plt.tight_layout()
+
+st.pyplot(fig1)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Espaciado en el eje X
 import numpy as np
