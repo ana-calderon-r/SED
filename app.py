@@ -125,6 +125,7 @@ ax1.set_xticklabels(xticks, rotation=45)
 plt.tight_layout()
 
 st.pyplot(fig1)
+plt.close(fig1)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Espaciado en el eje X
