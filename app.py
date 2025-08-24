@@ -183,6 +183,7 @@ umbral_pico = 0.92 * I_promedio_max
 # Filtrar horas pico
 horas_pico = curva_I_prom[curva_I_prom['I_Promedio'] >= umbral_pico]['HoraMinuto'].tolist()
 
+st.markdown("<br>", unsafe_allow_html=True)
 st.info("Corriente máxima promedio alcanzada")
 st.write(f"{corriente_max_promedio:.2f} A")
 
