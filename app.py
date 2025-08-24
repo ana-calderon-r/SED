@@ -237,7 +237,7 @@ st.markdown('''
 
 from scipy import stats
 
-hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="10:20")
+hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="09:00")
 corriente_medida = st.number_input("Corriente medida en esa hora (A)", value=100.0)
 hora_objetivo = st.text_input("Hora a estimar la corriente (formato HH:MM)", value="19:00")
 
@@ -273,3 +273,100 @@ try:
 
 except IndexError:
     st.error("Una de las horas ingresadas no se encuentra en los datos.")
+
+
+# ================== CLASIFICACIÓN POR FORMA DE CURVA (HEURÍSTICO) ==================
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown('''
+    <h2 id="clasificacion" style="
+        color: black; 
+        background-color: #FFE45C; 
+        padding: 14px 24px; 
+        border-radius: 10px; 
+        font-size: 18px;
+    ">
+        Clasificación por forma de curva
+    </h2>
+''', unsafe_allow_html=True)
+
+# Asegurar orden por hora
+curva_ord = curva_promedio.sort_values("HoraMinuto").reset_index(drop=True)
+serie = curva_ord["I_Norm"].values
+horas = curva_ord["HoraMinuto"].values
+
+# Helpers para promedios por franja horaria
+def mean_range(df_horas, df_vals, h_ini, h_fin):
+    h = pd.to_datetime(df_horas, format="%H:%M").time
+    t_ini = pd.to_datetime(h_ini, format="%H:%M").time()
+    t_fin = pd.to_datetime(h_fin, format="%H:%M").time()
+    mask = (pd.Series(h) >= t_ini) & (pd.Series(h) <= t_fin)
+    if mask.sum() == 0:
+        return np.nan
+    return float(np.nanmean(np.where(mask, df_vals, np.nan)))
+
+mean_all = float(np.mean(serie))             # promedio del día normalizado
+max_val = float(np.max(serie))               # pico normalizado (≈1)
+peak_idx = int(np.argmax(serie))
+peak_hour = horas[peak_idx]
+
+# Features por franjas (ajusta rangos si tus datos cambian)
+mean_madrugada = mean_range(horas, serie, "00:00", "05:59")
+mean_maniana   = mean_range(horas, serie, "06:00", "10:59")
+mean_laboral   = mean_range(horas, serie, "09:00", "17:59")
+mean_tarde     = mean_range(horas, serie, "15:00", "17:59")
+mean_noche     = mean_range(horas, serie, "18:00", "22:59")
+
+# Indicadores de forma
+load_factor   = mean_all / max_val if max_val > 0 else np.nan   # qué tan "plana" es la curva
+std_shape     = float(np.std(serie))                             # dispersión/peakedness
+ratio_noche   = mean_noche / mean_all if mean_all > 0 else np.nan
+ratio_madrug  = mean_madrugada / mean_all if mean_all > 0 else np.nan
+ratio_laboral = mean_laboral / mean_all if mean_all > 0 else np.nan
+ratio_maniana = mean_maniana / mean_all if mean_all > 0 else np.nan
+
+# Heurística de reglas (umbral ajustables según tu red/SED)
+def clasificar_por_curva(peak_hour, load_factor, std_shape, r_noche, r_madrug, r_laboral, r_maniana):
+    # Industrial: curva plana, actividad 24h (madrugada ~ diurna), poco pico
+    if (load_factor >= 0.80) and (r_madrug >= 0.75) and (std_shape <= 0.12):
+        return "Industrial"
+
+    # Comercial: fuerte en horario laboral, bajo en noche/madrugada, pico diurno
+    peak_h = pd.to_datetime(peak_hour, format="%H:%M").hour
+    if (9 <= peak_h <= 17) and (r_laboral >= 1.10) and (r_madrug <= 0.70) and (load_factor >= 0.60):
+        return "Comercial"
+
+    # Residencial: pico vespertino/nocturno, baja madrugada, load factor más bajo
+    if (18 <= peak_h <= 22) and (r_noche >= 1.15) and (r_madrug <= 0.65) and (load_factor <= 0.70):
+        return "Residencial"
+
+    # Si no encaja perfecto, decide por el mayor "ratio" dominante
+    scores = {
+        "Residencial": (r_noche or 0) - (r_madrug or 0),
+        "Comercial": (r_laboral or 0) - (r_madrug or 0),
+        "Industrial": load_factor - (std_shape or 0)
+    }
+    return max(scores, key=scores.get)
+
+categoria = clasificar_por_curva(
+    peak_hour, load_factor, std_shape, ratio_noche, ratio_madrug, ratio_laboral, ratio_maniana
+)
+
+# Mostrar resultados
+colA, colB, colC = st.columns(3)
+with colA:
+    st.metric("Categoría estimada", categoria)
+with colB:
+    st.metric("Hora pico", peak_hour)
+with colC:
+    st.metric("Load factor (mean/max)", f"{load_factor:.2f}")
+
+st.info(
+    f"Ratios — Noche/Media: {ratio_noche:.2f} | Laboral/Media: {ratio_laboral:.2f} | "
+    f"Madrugada/Media: {ratio_madrug:.2f} | Desv. forma: {std_shape:.2f}"
+)
+st.caption(
+    "Heurística basada en la forma de la curva normalizada: "
+    "Residencial → pico noche y baja madrugada; Comercial → fuerte en 9–18; "
+    "Industrial → curva plana con actividad 24h."
+)
+
