@@ -185,13 +185,37 @@ horas_pico = curva_I_prom[curva_I_prom['I_Promedio'] >= umbral_pico]['HoraMinuto
 st.subheader("Corriente máxima promedio trifásica alcanzada")
 st.write(f"{corriente_max_promedio:.2f} A")
 
+# Función para agrupar horas consecutivas
+def agrupar_rangos(horas):
+    rangos = []
+    if not horas:
+        return rangos
+
+    inicio = horas[0]
+    fin = horas[0]
+
+    for i in range(1, len(horas)):
+        # Si la hora actual es consecutiva (por ejemplo diferencia de 5 minutos)
+        # asumimos que las horas están en formato HH:MM
+        h_prev = pd.to_datetime(horas[i-1], format="%H:%M")
+        h_act = pd.to_datetime(horas[i], format="%H:%M")
+        if (h_act - h_prev).seconds / 60 <= 5:  # tolerancia de 5 min
+            fin = horas[i]
+        else:
+            rangos.append(f"[{inicio} – {fin}]")
+            inicio = horas[i]
+            fin = horas[i]
+
+    # añadir el último rango
+    rangos.append(f"[{inicio} – {fin}]")
+    return rangos
+
 if horas_pico:
-    hora_inicio = min(horas_pico)
-    hora_fin = max(horas_pico)
-    st.info(f"Rango de horas pico: [{hora_inicio} – {hora_fin}]")
+    rangos = agrupar_rangos(horas_pico)
+    st.info("Rangos de horas pico:")
+    st.write(", ".join(rangos))
 else:
     st.warning("No se encontraron horas pico con corriente promedio ≥ 90% del valor máximo.")
-
 # CALCULADORA
 
 st.markdown('''
