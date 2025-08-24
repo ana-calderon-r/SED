@@ -179,7 +179,7 @@ corriente_max_promedio = df['I_Promedio'].max()
 
 curva_I_prom['I_Promedio'] = curva_I_prom['I_Total'] / 3
 I_promedio_max = curva_I_prom['I_Promedio'].max()
-umbral_pico = 0.9 * I_promedio_max
+umbral_pico = 0.92 * I_promedio_max
 horas_pico = curva_I_prom[curva_I_prom['I_Promedio'] >= umbral_pico]['HoraMinuto'].tolist()
 
 st.subheader("Corriente máxima promedio trifásica alcanzada")
