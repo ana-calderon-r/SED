@@ -186,8 +186,9 @@ st.subheader("Corriente máxima promedio trifásica alcanzada")
 st.write(f"{corriente_max_promedio:.2f} A")
 
 if horas_pico:
-    st.info("⏰ Rango de horas pico (corriente promedio ≥ 90% del valor máximo):")
-    st.write(", ".join(horas_pico))
+    hora_inicio = min(horas_pico)
+    hora_fin = max(horas_pico)
+    st.info(f"Rango de horas pico (≥ 90% del valor máximo): [{hora_inicio} – {hora_fin}]")
 else:
     st.warning("No se encontraron horas pico con corriente promedio ≥ 90% del valor máximo.")
 
