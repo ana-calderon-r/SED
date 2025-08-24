@@ -239,20 +239,41 @@ hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="10:20")
 corriente_medida = st.number_input("Corriente medida en esa hora (A)", value=100.0)
 hora_objetivo = st.text_input("Hora a estimar la corriente (formato HH:MM)", value="19:00")
 
+from scipy import stats
+
+hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="10:20")
+corriente_medida = st.number_input("Corriente medida en esa hora (A)", value=100.0)
+hora_objetivo = st.text_input("Hora a estimar la corriente (formato HH:MM)", value="19:00")
+
 try:
-    R_medida = curva_promedio[curva_promedio['HoraMinuto'] == hora_medida]['I_Norm'].values[0]
-    R_objetivo = curva_promedio[curva_promedio['HoraMinuto'] == hora_objetivo]['I_Norm'].values[0]
+    # extraer valores normalizados de los 7 días para ambas horas
+    valores_medida = df_norm[df_norm['HoraMinuto'] == hora_medida].sort_values('Fecha')['I_Norm'].values
+    valores_objetivo = df_norm[df_norm['HoraMinuto'] == hora_objetivo].sort_values('Fecha')['I_Norm'].values
 
-    I_pico = corriente_medida / R_medida
-    I_estimado = I_pico * R_objetivo
+    if len(valores_medida) == 0 or len(valores_objetivo) == 0:
+        raise IndexError
 
-    st.success(f"🔍 La corriente estimada a las {hora_objetivo} es de **{I_estimado:.2f} A**")
+    # ratios diarios (objetivo / medida)
+    ratios = valores_objetivo / valores_medida
+
+    # media y desviación estándar
+    media_ratio = np.mean(ratios)
+    desv_std = np.std(ratios, ddof=1)
+    n = len(ratios)
+
+    # intervalo de confianza con t-student
+    t_val = stats.t.ppf(0.975, n-1)
+    ic_inf = media_ratio - t_val * (desv_std / np.sqrt(n))
+    ic_sup = media_ratio + t_val * (desv_std / np.sqrt(n))
+
+    # aplicar al valor medido
+    I_estimado = corriente_medida * media_ratio
+    I_estimado_inf = corriente_medida * ic_inf
+    I_estimado_sup = corriente_medida * ic_sup
+
+    # resultados
+    st.success(f"Estimación de corriente a las {hora_objetivo}: **{I_estimado:.2f} A**")
+    st.info(f"Intervalo de confianza 95%: [{I_estimado_inf:.2f}, {I_estimado_sup:.2f}] A")
 
 except IndexError:
-    st.error("❌ Una de las horas ingresadas no se encuentra en los datos.")
-
-
-    st.success(f"I pico estimado: {I_pico:.2f} A")
-    st.success(f"I estimada a las {hora_objetivo}: {I_estimado:.2f} A")
-except IndexError:
-    st.error("Verifica que las horas ingresadas existan en los datos.")
+    st.error("Una de las horas ingresadas no se encuentra en los datos.")
