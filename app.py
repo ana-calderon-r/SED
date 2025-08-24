@@ -187,23 +187,26 @@ st.subheader("Corriente máxima promedio trifásica alcanzada")
 st.write(f"{corriente_max_promedio:.2f} A")
 
 # Función para agrupar en rangos [inicio – fin]
-def agrupar_rangos(horas):
+def agrupar_rangos(horas, intervalo=10):
     rangos = []
     if not horas:
         return rangos
 
-    # Convertir a datetime para comparar
-    horas_dt = [pd.to_datetime(h, format="%H:%M") for h in horas]
+    # Convertir a datetime y ordenar
+    horas_dt = sorted([pd.to_datetime(h, format="%H:%M") for h in horas])
 
     inicio = horas_dt[0]
     fin = horas_dt[0]
 
     for i in range(1, len(horas_dt)):
-        # Verificar continuidad (ejemplo: 5 min entre puntos consecutivos)
-        if (horas_dt[i] - horas_dt[i-1]).seconds / 60 <= 5:
+        # Diferencia en minutos con el anterior
+        diff = (horas_dt[i] - horas_dt[i-1]).seconds / 60
+        if diff == intervalo:  # sigue siendo consecutivo
             fin = horas_dt[i]
         else:
+            # cerrar el rango anterior
             rangos.append(f"[{inicio.strftime('%H:%M')} – {fin.strftime('%H:%M')}]")
+            # nuevo rango
             inicio = horas_dt[i]
             fin = horas_dt[i]
 
@@ -212,7 +215,7 @@ def agrupar_rangos(horas):
     return rangos
 
 if horas_pico:
-    rangos = agrupar_rangos(horas_pico)
+    rangos = agrupar_rangos(horas_pico, intervalo=10)  # ⬅️ aquí pones 5, 10, 15 según tu data
     st.info("Rangos de horas pico:")
     st.write(", ".join(rangos))
 else:
