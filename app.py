@@ -180,34 +180,35 @@ corriente_max_promedio = df['I_Promedio'].max()
 curva_I_prom['I_Promedio'] = curva_I_prom['I_Total'] / 3
 I_promedio_max = curva_I_prom['I_Promedio'].max()
 umbral_pico = 0.92 * I_promedio_max
+# Filtrar horas pico
 horas_pico = curva_I_prom[curva_I_prom['I_Promedio'] >= umbral_pico]['HoraMinuto'].tolist()
 
 st.subheader("Corriente máxima promedio trifásica alcanzada")
 st.write(f"{corriente_max_promedio:.2f} A")
 
-# Función para agrupar horas consecutivas
+# Función para agrupar en rangos [inicio – fin]
 def agrupar_rangos(horas):
     rangos = []
     if not horas:
         return rangos
 
-    inicio = horas[0]
-    fin = horas[0]
+    # Convertir a datetime para comparar
+    horas_dt = [pd.to_datetime(h, format="%H:%M") for h in horas]
 
-    for i in range(1, len(horas)):
-        # Si la hora actual es consecutiva (por ejemplo diferencia de 5 minutos)
-        # asumimos que las horas están en formato HH:MM
-        h_prev = pd.to_datetime(horas[i-1], format="%H:%M")
-        h_act = pd.to_datetime(horas[i], format="%H:%M")
-        if (h_act - h_prev).seconds / 60 <= 5:  # tolerancia de 5 min
-            fin = horas[i]
+    inicio = horas_dt[0]
+    fin = horas_dt[0]
+
+    for i in range(1, len(horas_dt)):
+        # Verificar continuidad (ejemplo: 5 min entre puntos consecutivos)
+        if (horas_dt[i] - horas_dt[i-1]).seconds / 60 <= 5:
+            fin = horas_dt[i]
         else:
-            rangos.append(f"[{inicio} – {fin}]")
-            inicio = horas[i]
-            fin = horas[i]
+            rangos.append(f"[{inicio.strftime('%H:%M')} – {fin.strftime('%H:%M')}]")
+            inicio = horas_dt[i]
+            fin = horas_dt[i]
 
-    # añadir el último rango
-    rangos.append(f"[{inicio} – {fin}]")
+    # Agregar el último rango
+    rangos.append(f"[{inicio.strftime('%H:%M')} – {fin.strftime('%H:%M')}]")
     return rangos
 
 if horas_pico:
