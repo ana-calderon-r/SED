@@ -235,10 +235,6 @@ st.markdown('''
     </h2>
 ''', unsafe_allow_html=True)
 
-hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="10:20")
-corriente_medida = st.number_input("Corriente medida en esa hora (A)", value=100.0)
-hora_objetivo = st.text_input("Hora a estimar la corriente (formato HH:MM)", value="19:00")
-
 from scipy import stats
 
 hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="10:20")
