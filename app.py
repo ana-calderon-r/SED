@@ -75,9 +75,9 @@ sed_seleccionada = st.selectbox("Selecciona la SED:", list(sed_opciones.keys()))
 archivo_cargado = os.path.join(DATA_DIR, sed_opciones[sed_seleccionada])
 
 df = pd.read_excel(archivo_cargado)
-df['Starttime'] = pd.to_datetime(df['Starttime'])
-df['Fecha'] = df['Starttime'].dt.date
-df['HoraMinuto'] = df['Starttime'].dt.strftime('%H:%M')
+df['starttime'] = pd.to_datetime(df['starttime'])
+df['Fecha'] = df['starttime'].dt.date
+df['HoraMinuto'] = df['starttime'].dt.strftime('%H:%M')
 df['I_Total'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg'])
 df['I_Promedio'] = df['I_Total'] / 3
 df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3
