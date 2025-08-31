@@ -324,49 +324,56 @@ ratio_madrug  = mean_madrugada / mean_all if mean_all > 0 else np.nan
 ratio_laboral = mean_laboral / mean_all if mean_all > 0 else np.nan
 ratio_maniana = mean_maniana / mean_all if mean_all > 0 else np.nan
 
-# Heurística de reglas (umbral ajustables según tu red/SED)
-def clasificar_por_curva(peak_hour, load_factor, std_shape, r_noche, r_madrug, r_laboral, r_maniana):
-    # Industrial: curva plana, actividad 24h (madrugada ~ diurna), poco pico
-    if (load_factor >= 0.80) and (r_madrug >= 0.75) and (std_shape <= 0.12):
+import numpy as np
+import pandas as pd
+
+def calcular_umbral(data, columna, p_alto=0.75, p_bajo=0.25):
+    """Devuelve umbrales alto y bajo de una métrica según percentiles"""
+    return np.nanpercentile(data[columna], p_bajo*100), np.nanpercentile(data[columna], p_alto*100)
+
+def clasificar_por_curva_auto(row, umbrales):
+    peak_hour = pd.to_datetime(row["peak_hour"], format="%H:%M").hour
+    load_factor = row["load_factor"]
+    std_shape = row["std_shape"]
+    r_noche = row["ratio_noche"]
+    r_madrug = row["ratio_madrug"]
+    r_laboral = row["ratio_laboral"]
+
+    # Umbrales dinámicos
+    lf_low, lf_high = umbrales["load_factor"]
+    std_low, std_high = umbrales["std_shape"]
+    r_mad_low, r_mad_high = umbrales["ratio_madrug"]
+    r_noc_low, r_noc_high = umbrales["ratio_noche"]
+    r_lab_low, r_lab_high = umbrales["ratio_laboral"]
+
+    # --- Reglas ---
+    if (load_factor >= lf_high) and (r_madrug >= r_mad_high) and (std_shape <= std_low):
         return "Industrial"
 
-    # Comercial: fuerte en horario laboral, bajo en noche/madrugada, pico diurno
-    peak_h = pd.to_datetime(peak_hour, format="%H:%M").hour
-    if (9 <= peak_h <= 17) and (r_laboral >= 1.10) and (r_madrug <= 0.70) and (load_factor >= 0.60):
+    if (9 <= peak_hour <= 17) and (r_laboral >= r_lab_high) and (r_madrug <= r_mad_low) and (load_factor >= lf_low):
         return "Comercial"
 
-    # Residencial: pico vespertino/nocturno, baja madrugada, load factor más bajo
-    if (18 <= peak_h <= 22) and (r_noche >= 1.15) and (r_madrug <= 0.65) and (load_factor <= 0.70):
+    if (18 <= peak_hour <= 22) and (r_noche >= r_noc_high) and (r_madrug <= r_mad_low) and (load_factor <= lf_low):
         return "Residencial"
 
-    # Si no encaja perfecto, decide por el mayor "ratio" dominante
+    # --- Resolución por puntajes ---
     scores = {
         "Residencial": (r_noche or 0) - (r_madrug or 0),
         "Comercial": (r_laboral or 0) - (r_madrug or 0),
-        "Industrial": load_factor - (std_shape or 0)
+        "Industrial": (load_factor or 0) - (std_shape or 0)
     }
     return max(scores, key=scores.get)
 
-categoria = clasificar_por_curva(
-    peak_hour, load_factor, std_shape, ratio_noche, ratio_madrug, ratio_laboral, ratio_maniana
-)
+# Ejemplo de uso:
+# df = tu DataFrame con columnas: peak_hour, load_factor, std_shape, ratio_noche, ratio_madrug, ratio_laboral
+umbrales = {
+    "load_factor": calcular_umbral(df, "load_factor"),
+    "std_shape": calcular_umbral(df, "std_shape"),
+    "ratio_madrug": calcular_umbral(df, "ratio_madrug"),
+    "ratio_noche": calcular_umbral(df, "ratio_noche"),
+    "ratio_laboral": calcular_umbral(df, "ratio_laboral"),
+}
 
-# Mostrar resultados
-colA, colB, colC = st.columns(3)
-with colA:
-    st.metric("Categoría estimada", categoria)
-with colB:
-    st.metric("Hora pico", peak_hour)
-with colC:
-    st.metric("Load factor (mean/max)", f"{load_factor:.2f}")
+df["categoria"] = df.apply(lambda row: clasificar_por_curva_auto(row, umbrales), axis=1)
 
-st.info(
-    f"Ratios — Noche/Media: {ratio_noche:.2f} | Laboral/Media: {ratio_laboral:.2f} | "
-    f"Madrugada/Media: {ratio_madrug:.2f} | Desv. forma: {std_shape:.2f}"
-)
-st.caption(
-    "Heurística basada en la forma de la curva normalizada: "
-    "Residencial → pico noche y baja madrugada; Comercial → fuerte en 9–18; "
-    "Industrial → curva plana con actividad 24h."
-)
 
