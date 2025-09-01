@@ -112,72 +112,72 @@ st.markdown('''
 ''', unsafe_allow_html=True)
 
 # Curva normalizada principal
-
+# Selector para elegir el gráfico
 opcion = st.selectbox(
     "📊 Selecciona la curva a visualizar:",
-    ["Factores normalizados", "Corriente promedio", "Voltaje promedio"]
+    ["Factores Normalizados", "Corriente Promedio", "Voltaje Promedio"]
 )
 
-# --- Gráfico según opción seleccionada ---
-if opcion == "Factores normalizados":
-    fig1, ax1 = plt.subplots(figsize=(6, 4), dpi=120)
-    ax1.plot(
-        curva_promedio['HoraMinuto'],
-        curva_promedio['I_Norm'],
-        color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Normalizada'
-    )
+# Centramos la gráfica
+col1, col2, col3 = st.columns([1, 3, 1])  # la del medio será más grande
+with col2:
+    if opcion == "Factores Normalizados":
+        fig1, ax1 = plt.subplots(figsize=(6, 3.5), dpi=120)  
+        ax1.plot(
+            curva_promedio['HoraMinuto'],
+            curva_promedio['I_Norm'],
+            color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Normalizada'
+        )
+        ax1.set_title('Factores Normalizados', fontsize=11, fontweight='bold')
+        ax1.set_ylabel('Corriente Normalizada', fontsize=10)
+        ax1.grid(axis='y', linestyle='--', alpha=0.6)
+        ax1.set_facecolor("#fafafa")
 
-    ax1.set_title('Factores Normalizados', fontsize=12, fontweight='bold')
-    ax1.set_ylabel('Corriente Normalizada', fontsize=10)
-    ax1.grid(axis='y', linestyle='--', alpha=0.6)
-    ax1.set_facecolor("#fafafa")
+        xticks_norm = curva_promedio['HoraMinuto'].iloc[::6]
+        ax1.set_xticks(np.arange(len(curva_promedio))[::6])
+        ax1.set_xticklabels(xticks_norm, rotation=45, ha='right')
 
-    xticks_norm = curva_promedio['HoraMinuto'].iloc[::6]
-    ax1.set_xticks(np.arange(len(curva_promedio))[::6])
-    ax1.set_xticklabels(xticks_norm, rotation=45, ha='right')
+        plt.tight_layout()
+        st.pyplot(fig1, use_container_width=False)
 
-    plt.tight_layout()
-    st.pyplot(fig1)
+    elif opcion == "Corriente Promedio":
+        fig2, ax2 = plt.subplots(figsize=(6, 3.5), dpi=120)  
+        ax2.plot(
+            curva_I_prom['HoraMinuto'], 
+            curva_I_prom['I_Total']/3, 
+            color='#FF9800', linewidth=2.2, marker='o', markersize=3
+        )
+        ax2.set_title('Corriente Promedio', fontsize=11, fontweight='bold')
+        ax2.set_ylabel('Corriente (A)', fontsize=10)
+        ax2.grid(axis='y', linestyle='--', alpha=0.6)
+        ax2.set_facecolor("#fafafa")
 
-elif opcion == "Corriente promedio":
-    fig2, ax2 = plt.subplots(figsize=(6, 4))
-    ax2.plot(
-        curva_I_prom['HoraMinuto'], 
-        curva_I_prom['I_Total']/3, 
-        color='#FF9800', linewidth=2.2, marker='o', markersize=3
-    )
+        xticks_I = curva_I_prom['HoraMinuto'].iloc[::6]
+        ax2.set_xticks(np.arange(len(curva_I_prom))[::6])
+        ax2.set_xticklabels(xticks_I, rotation=45, ha='right')
 
-    ax2.set_title('Corriente Promedio', fontsize=12, fontweight='bold')
-    ax2.set_ylabel('Corriente (A)', fontsize=10)
-    ax2.grid(axis='y', linestyle='--', alpha=0.6)
-    ax2.set_facecolor("#fafafa")
+        plt.tight_layout()
+        st.pyplot(fig2, use_container_width=False)
 
-    xticks_I = curva_I_prom['HoraMinuto'].iloc[::6]
-    ax2.set_xticks(np.arange(len(curva_I_prom))[::6])
-    ax2.set_xticklabels(xticks_I, rotation=45, ha='right')
+    else:  # Voltaje Promedio
+        fig3, ax3 = plt.subplots(figsize=(6, 3.5), dpi=120)  
+        ax3.plot(
+            curva_V_prom['HoraMinuto'], 
+            curva_V_prom['V_Total'], 
+            color='#4CAF50', linewidth=2.2, marker='o', markersize=3
+        )
+        ax3.set_title('Voltaje Promedio', fontsize=11, fontweight='bold')
+        ax3.set_ylabel('Voltaje (V)', fontsize=10)
+        ax3.grid(axis='y', linestyle='--', alpha=0.6)
+        ax3.set_facecolor("#fafafa")
 
-    plt.tight_layout()
-    st.pyplot(fig2)
+        xticks_V = curva_V_prom['HoraMinuto'].iloc[::6]
+        ax3.set_xticks(np.arange(len(curva_V_prom))[::6])
+        ax3.set_xticklabels(xticks_V, rotation=45, ha='right')
 
-elif opcion == "Voltaje promedio":
-    fig3, ax3 = plt.subplots(figsize=(6, 4))
-    ax3.plot(
-        curva_V_prom['HoraMinuto'], 
-        curva_V_prom['V_Total'], 
-        color='#4CAF50', linewidth=2.2, marker='o', markersize=3
-    )
+        plt.tight_layout()
+        st.pyplot(fig3, use_container_width=False)
 
-    ax3.set_title('Voltaje Promedio', fontsize=12, fontweight='bold')
-    ax3.set_ylabel('Voltaje (V)', fontsize=10)
-    ax3.grid(axis='y', linestyle='--', alpha=0.6)
-    ax3.set_facecolor("#fafafa")
-
-    xticks_V = curva_V_prom['HoraMinuto'].iloc[::6]
-    ax3.set_xticks(np.arange(len(curva_V_prom))[::6])
-    ax3.set_xticklabels(xticks_V, rotation=45, ha='right')
-
-    plt.tight_layout()
-    st.pyplot(fig3)
 
 
 
