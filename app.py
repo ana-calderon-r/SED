@@ -375,10 +375,36 @@ with colB:
 with colC:
     st.metric("Load factor", f"{load_factor:.2f}")
 
-st.caption(
-    "Heurística basada en la forma de la curva normalizada: "
-    "Residencial → pico noche y baja madrugada; Comercial → fuerte en 9–18; "
-    "Industrial → curva plana con actividad 24h."
+# ===== Ratios visuales =====
+st.write("### Ratios por franja horaria")
+
+st.progress(min(ratio_noche/2, 1.0))
+st.caption(f"Noche/Media: {ratio_noche:.2f}")
+
+st.progress(min(ratio_laboral/2, 1.0))
+st.caption(f"Laboral/Media: {ratio_laboral:.2f}")
+
+st.progress(min(ratio_madrug/2, 1.0))
+st.caption(f"Madrugada/Media: {ratio_madrug:.2f}")
+
+st.progress(min(std_shape/0.5, 1.0))
+st.caption(f"Desviación forma: {std_shape:.2f}")
+
+# ===== Nota informativa =====
+st.markdown(
+    """
+    <div style="
+        background-color:#e8f5e9;
+        border-left: 6px solid #43a047;
+        padding: 10px;
+        border-radius:8px;
+        margin-top:15px;
+    ">
+        <strong>ℹ️ Heurística usada:</strong><br>
+        • <b>Residencial</b> → pico noche y baja madrugada <br>
+        • <b>Comercial</b> → fuerte en 9–18 <br>
+        • <b>Industrial</b> → curva plana con actividad 24h
+    </div>
+    """,
+    unsafe_allow_html=True
 )
-
-
