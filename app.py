@@ -168,7 +168,7 @@ with col2:
     )
 
     # Estilo
-    ax3.set_title('Voltaje Promedio', fontsize=14, fontweight='bold')
+    ax3.set_title('Voltaje Promedio', fontsize=12, fontweight='bold')
     ax3.set_ylabel('Voltaje (V)', fontsize=12)
 
     ax3.grid(axis='y', linestyle='--', alpha=0.6)
