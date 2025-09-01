@@ -113,25 +113,24 @@ st.markdown('''
 
 # Curva normalizada principal
 
-col_empty1, col_center, col_empty2 = st.columns([1, 3, 1])
+fig1, ax1 = plt.subplots(figsize=(6, 4), dpi=100)  # tamaño real
+ax1.plot(
+    curva_promedio['HoraMinuto'],
+    curva_promedio['I_Norm'],
+    color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Normalizada'
+)
 
-with col_center:
-    st.subheader("📈 Curva normalizada")
-    fig1, ax1 = plt.subplots(figsize=(4, 3), dpi=100)
-    ax1.plot(
-        curva_norm['HoraMinuto'],
-        curva_norm['I_Norm'],
-        color='#2196F3', linewidth=2.2, marker='o', markersize=3
-    )
-    ax1.set_title('Curva Normalizada', fontsize=14, fontweight='bold')
-    ax1.set_ylabel('p.u.', fontsize=12)
-    ax1.grid(axis='y', linestyle='--', alpha=0.6)
-    ax1.set_facecolor("#fafafa")
-    xticks_norm = curva_norm['HoraMinuto'].iloc[::6]
-    ax1.set_xticks(np.arange(len(curva_norm))[::6])
-    ax1.set_xticklabels(xticks_norm, rotation=45, ha='right')
-    plt.tight_layout()
-    st.pyplot(fig1, use_container_width=False)
+ax1.set_title('Factores Normalizados', fontsize=12, fontweight='bold')
+ax1.set_ylabel('Corriente Normalizada', fontsize=12)
+ax1.grid(axis='y', linestyle='--', alpha=0.6)
+ax1.set_facecolor("#fafafa")
+
+xticks_norm = curva_promedio['HoraMinuto'].iloc[::6]
+ax1.set_xticks(np.arange(len(curva_promedio))[::6])
+ax1.set_xticklabels(xticks_norm, rotation=45, ha='right')
+
+plt.tight_layout()
+st.pyplot(fig1, use_container_width=False)
 
 col1, col2 = st.columns(2)
 
