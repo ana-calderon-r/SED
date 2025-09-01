@@ -295,17 +295,6 @@ except IndexError:
 
 
 # ================== CLASIFICACIÓN POR FORMA DE CURVA (HEURÍSTICO) ==================
-st.markdown('''
-    <h2 id="clasificacion" style="
-        color: black; 
-        background-color: #FFE45C; 
-        padding: 14px 24px; 
-        border-radius: 10px; 
-        font-size: 18px;
-    ">
-        clasificacion
-    </h2>
-''', unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('''
