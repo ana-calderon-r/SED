@@ -356,17 +356,25 @@ categoria = clasificar_por_curva(
 )
 
 # Mostrar resultados
+
 colA, colB, colC = st.columns(3)
+
 with colA:
-    st.metric("Categoría estimada", categoria)
+    st.markdown(
+        f"""
+        <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
+            <h4 style="margin:0; color:#444;">Categoría</h4>
+            <p style="font-size:20px; font-weight:bold; color:#2c7;">{categoria}</p>
+        </div>
+        """, unsafe_allow_html=True
+    )
+
 with colB:
     st.metric("Hora pico", peak_hour)
-with colC:
-    st.metric("Load factor (mean/max)", f"{load_factor:.2f}")
 
-st.info(
-    f"Ratios — Noche/Media: {ratio_noche:.2f} | Laboral/Media: {ratio_laboral:.2f} | "
-    f"Madrugada/Media: {ratio_madrug:.2f} | Desv. forma: {std_shape:.2f}"
+with colC:
+    st.metric("Load factor", f"{load_factor:.2f}")
+
 )
 st.caption(
     "Heurística basada en la forma de la curva normalizada: "
