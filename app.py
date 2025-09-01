@@ -370,11 +370,24 @@ with colA:
     )
 
 with colB:
-    st.metric("Hora pico", peak_hour)
+    st.markdown(
+        f"""
+        <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
+            <h4 style="margin:0; color:#444;">Hora pico</h4>
+            <p style="font-size:20px; font-weight:bold; color:#2c7;">{peak_hour}</p>
+        </div>
+        """, unsafe_allow_html=True
+    )
 
 with colC:
-    st.metric("Load factor", f"{load_factor:.2f}")
-
+    st.markdown(
+        f"""
+        <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
+            <h4 style="margin:0; color:#444;">Load factor</h4>
+            <p style="font-size:20px; font-weight:bold; color:#2c7;">{load_factor:.2f}</p>
+        </div>
+        """, unsafe_allow_html=True
+    )
 # ===== Ratios visuales =====
 st.write("### Ratios por franja horaria")
 
@@ -400,7 +413,7 @@ st.markdown(
         border-radius:8px;
         margin-top:15px;
     ">
-        <strong>ℹ️ Heurística usada:</strong><br>
+        <strong>Metodología usada:</strong><br>
         • <b>Residencial</b> → pico noche y baja madrugada <br>
         • <b>Comercial</b> → fuerte en 9–18 <br>
         • <b>Industrial</b> → curva plana con actividad 24h
