@@ -144,7 +144,7 @@ with col1:
     )
 
     # Estilo
-    ax2.set_title('Corriente Promedio', fontsize=14, fontweight='bold')
+    ax2.set_title('Corriente Promedio', fontsize=12, fontweight='bold')
     ax2.set_ylabel('Corriente (A)', fontsize=12)
 
     ax2.grid(axis='y', linestyle='--', alpha=0.6)   # solo líneas horizontales
