@@ -120,9 +120,8 @@ ax1.plot(
     color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Normalizada'
 )
 
-ax1.set_title('Factores Normalizados', fontsize=14, fontweight='bold')
-ax1.set_xlabel('Hora', fontsize=12)
-ax1.set_ylabel('Corriente Normalizada', fontsize=12)
+ax1.set_title('Factores Normalizados', fontsize=12, fontweight='bold')
+ax1.set_ylabel('Magnitudes normalizadas', fontsize=12)
 ax1.grid(axis='y', linestyle='--', alpha=0.6)
 ax1.set_facecolor("#fafafa")
 ax1.legend()
