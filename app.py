@@ -429,23 +429,3 @@ st.caption(f"Madrugada/Media: {ratio_madrug:.2f}")
 
 st.progress(min(std_shape/0.5, 1.0))
 st.caption(f"Desviación forma: {std_shape:.2f}")
-
-# Nota informativa
-
-st.markdown(
-    """
-    <div style="
-        background-color:#e8f5e9;
-        border-left: 6px solid #43a047;
-        padding: 10px;
-        border-radius:8px;
-        margin-top:15px;
-    ">
-        <strong>Metodología usada:</strong><br>
-        • <b>Residencial</b> → pico noche y baja madrugada <br>
-        • <b>Comercial</b> → fuerte en 9–18 <br>
-        • <b>Industrial</b> → curva plana con actividad 24h
-    </div>
-    """,
-    unsafe_allow_html=True
-)
