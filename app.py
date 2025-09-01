@@ -352,25 +352,27 @@ ratio_laboral = mean_laboral / mean_all if mean_all > 0 else np.nan
 ratio_maniana = mean_maniana / mean_all if mean_all > 0 else np.nan
 
 # Heurística de reglas (umbral ajustables según tu red/SED)
+
 def clasificar_por_curva(peak_hour, load_factor, std_shape, r_noche, r_madrug, r_laboral, r_maniana):
-    # Industrial: curva plana, actividad 24h (madrugada ~ diurna), poco pico
-    if (load_factor >= 0.80) and (r_madrug >= 0.75) and (std_shape <= 0.12):
+    peak_h = pd.to_datetime(peak_hour, format="%H:%M").hour
+
+    # Industrial: curva plana y estable, madrugada ~ diurna
+    if (load_factor >= 0.80) and (r_madrug >= 0.80) and (std_shape <= 0.12):
         return "Industrial"
 
-    # Comercial: fuerte en horario laboral, bajo en noche/madrugada, pico diurno
-    peak_h = pd.to_datetime(peak_hour, format="%H:%M").hour
-    if (9 <= peak_h <= 17) and (r_laboral >= 1.10) and (r_madrug <= 0.70) and (load_factor >= 0.60):
+    # Comercial: pico diurno, laboral claramente > media, madrugada baja
+    if (9 <= peak_h <= 17) and (r_laboral >= 1.20) and (r_madrug <= 0.75) and (load_factor >= 0.65):
         return "Comercial"
 
-    # Residencial: pico vespertino/nocturno, baja madrugada, load factor más bajo
-    if (18 <= peak_h <= 22) and (r_noche >= 1.15) and (r_madrug <= 0.65) and (load_factor <= 0.70):
+    # Residencial: pico 18–22h, noche claramente > media, madrugada más baja
+    if (18 <= peak_h <= 22) and (r_noche >= 1.20) and (r_madrug <= 0.80) and (load_factor <= 0.75):
         return "Residencial"
 
-    # Si no encaja perfecto, decide por el mayor "ratio" dominante
+    # Desempate por dominancia de franja
     scores = {
-        "Residencial": (r_noche or 0) - (r_madrug or 0),
-        "Comercial": (r_laboral or 0) - (r_madrug or 0),
-        "Industrial": load_factor - (std_shape or 0)
+        "Residencial": ((r_noche or 0) - (r_madrug or 0)) + (0.10 if 18 <= peak_h <= 22 else 0),
+        "Comercial": ((r_laboral or 0) - (r_madrug or 0)) + (0.10 if 9 <= peak_h <= 17 else 0),
+        "Industrial": (load_factor or 0) - (std_shape or 0)
     }
     return max(scores, key=scores.get)
 
