@@ -134,8 +134,7 @@ st.pyplot(fig1)
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Corriente promedio por hora")
-
+    
     fig2, ax2 = plt.subplots(figsize=(6, 4))
     ax2.plot(
         curva_I_prom['HoraMinuto'], 
@@ -145,7 +144,6 @@ with col1:
 
     # Estilo
     ax2.set_title('Corriente Promedio', fontsize=14, fontweight='bold')
-    ax2.set_xlabel('Hora', fontsize=12)
     ax2.set_ylabel('Corriente (A)', fontsize=12)
 
     ax2.grid(axis='y', linestyle='--', alpha=0.6)   # solo líneas horizontales
