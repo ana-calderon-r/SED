@@ -375,7 +375,6 @@ with colB:
 with colC:
     st.metric("Load factor", f"{load_factor:.2f}")
 
-)
 st.caption(
     "Heurística basada en la forma de la curva normalizada: "
     "Residencial → pico noche y baja madrugada; Comercial → fuerte en 9–18; "
