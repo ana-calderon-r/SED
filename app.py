@@ -72,7 +72,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ================== CARGA DE ARCHIVOS ==================
+# CARGA DE ARCHIVOS
+
 DATA_DIR = "data"
 archivos_sed = [f for f in os.listdir(DATA_DIR) if f.endswith(".xlsx")]
 sed_opciones = {archivo.replace(".xlsx", "").replace("_", " "): archivo for archivo in archivos_sed}
@@ -120,7 +121,8 @@ opcion = st.selectbox(
     ["Factores Normalizados", "Corriente Promedio", "Voltaje Promedio"]
 )
 
-# Centramos la gráfica
+# Centrado
+
 col1, col2, col3 = st.columns([1, 3, 1])  # la del medio será más grande
 with col2:
     if opcion == "Factores Normalizados":
@@ -235,11 +237,12 @@ def agrupar_rangos(horas, intervalo=10):
     return rangos
 
 if horas_pico:
-    rangos = agrupar_rangos(horas_pico, intervalo=10)  # ⬅️ aquí pones 5, 10, 15 según tu data
+    rangos = agrupar_rangos(horas_pico, intervalo=10)
     st.info("Rangos de horas pico:")
     st.write(", ".join(rangos))
 else:
     st.warning("No se encontraron horas pico con corriente promedio ≥ 90% del valor máximo.")
+
 # CALCULADORA
 
 st.markdown('''
@@ -292,9 +295,8 @@ try:
 
 except IndexError:
     st.error("Una de las horas ingresadas no se encuentra en los datos.")
-
-
-# ================== CLASIFICACIÓN POR FORMA DE CURVA (HEURÍSTICO) ==================
+    
+# CLASIFICACIÓN
 
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('''
@@ -404,7 +406,9 @@ with colC:
         </div>
         """, unsafe_allow_html=True
     )
-# ===== Ratios visuales =====
+    
+# Ratios visuales 
+
 st.write("### Ratios por franja horaria")
 
 st.progress(min(ratio_noche/2, 1.0))
@@ -419,7 +423,8 @@ st.caption(f"Madrugada/Media: {ratio_madrug:.2f}")
 st.progress(min(std_shape/0.5, 1.0))
 st.caption(f"Desviación forma: {std_shape:.2f}")
 
-# ===== Nota informativa =====
+# Nota informativa
+
 st.markdown(
     """
     <div style="
