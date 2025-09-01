@@ -385,9 +385,9 @@ colA, colB, colC = st.columns(3)
 with colA:
     st.markdown(
         f"""
-        <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
+        <div style="background:#f9f9f9; padding:10px; border-radius:10px; text-align:center;">
             <h4 style="margin:0; color:#444;">Categoría</h4>
-            <p style="font-size:16px; font-weight:bold; color:#2c7;">{categoria}</p>
+            <p style="font-size:18px; font-weight:bold; color:#2c7;">{categoria}</p>
         </div>
         """, unsafe_allow_html=True
     )
@@ -395,9 +395,9 @@ with colA:
 with colB:
     st.markdown(
         f"""
-        <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
+        <div style="background:#f9f9f9; padding:10px; border-radius:10px; text-align:center;">
             <h4 style="margin:0; color:#444;">Hora pico</h4>
-            <p style="font-size:16px; font-weight:bold; color:#2c7;">{peak_hour}</p>
+            <p style="font-size:18px; font-weight:bold; color:#2c7;">{peak_hour}</p>
         </div>
         """, unsafe_allow_html=True
     )
@@ -405,9 +405,9 @@ with colB:
 with colC:
     st.markdown(
         f"""
-        <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
+        <div style="background:#f9f9f9; padding:10px; border-radius:10px; text-align:center;">
             <h4 style="margin:0; color:#444;">Factor de carga</h4>
-            <p style="font-size:16px; font-weight:bold; color:#2c7;">{load_factor:.2f}</p>
+            <p style="font-size:18px; font-weight:bold; color:#2c7;">{load_factor:.2f}</p>
         </div>
         """, unsafe_allow_html=True
     )
