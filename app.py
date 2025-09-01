@@ -134,6 +134,8 @@ ax1.set_xticklabels(xticks_norm, rotation=45, ha='right')
 plt.tight_layout()
 st.pyplot(fig1, use_container_width=False)
 
+col1, col2 = st.columns(2)
+
 with col1:
     
     fig2, ax2 = plt.subplots(figsize=(6, 4))
