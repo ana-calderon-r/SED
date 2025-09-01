@@ -25,7 +25,7 @@ st.markdown(
     unsafe_allow_html=True
 )
     
-# ======= Menú Horizontal =======
+# Menú Horizontal
 menu_options = {
     "Diagramas": "#diagramas",
     "Datos": "#datos",
@@ -112,6 +112,8 @@ st.markdown('''
         Diagramas
     </h2>
 ''', unsafe_allow_html=True)
+
+st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True)
 
 # Curva normalizada principal
 # Selector para elegir el gráfico
