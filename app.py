@@ -124,7 +124,6 @@ ax1.set_title('Factores Normalizados', fontsize=12, fontweight='bold')
 ax1.set_ylabel('Magnitudes normalizadas', fontsize=12)
 ax1.grid(axis='y', linestyle='--', alpha=0.6)
 ax1.set_facecolor("#fafafa")
-ax1.legend()
 
 xticks_norm = curva_promedio['HoraMinuto'].iloc[::6]
 ax1.set_xticks(np.arange(len(curva_promedio))[::6])
