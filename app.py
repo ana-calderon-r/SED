@@ -11,7 +11,7 @@ import folium
 
 st.set_page_config(layout="wide")
 
-# ======= Encabezado con Logo =======
+# Encabezado
 
 logo_path = "data/logo-blanco.png"  
 
@@ -60,7 +60,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-#FORMATO DE LA SELECCION DE CAJA
+# FORMATO DE LA SELECCION DE CAJA
 
 st.markdown("""
     <style>
@@ -256,6 +256,8 @@ st.markdown('''
         Calculadora
     </h2>
 ''', unsafe_allow_html=True)
+
+st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True)
 
 from scipy import stats
 
