@@ -387,7 +387,7 @@ with colA:
         f"""
         <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
             <h4 style="margin:0; color:#444;">Categoría</h4>
-            <p style="font-size:20px; font-weight:bold; color:#2c7;">{categoria}</p>
+            <p style="font-size:16px; font-weight:bold; color:#2c7;">{categoria}</p>
         </div>
         """, unsafe_allow_html=True
     )
@@ -397,7 +397,7 @@ with colB:
         f"""
         <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
             <h4 style="margin:0; color:#444;">Hora pico</h4>
-            <p style="font-size:20px; font-weight:bold; color:#2c7;">{peak_hour}</p>
+            <p style="font-size:16px; font-weight:bold; color:#2c7;">{peak_hour}</p>
         </div>
         """, unsafe_allow_html=True
     )
@@ -407,7 +407,7 @@ with colC:
         f"""
         <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
             <h4 style="margin:0; color:#444;">Factor de carga</h4>
-            <p style="font-size:20px; font-weight:bold; color:#2c7;">{load_factor:.2f}</p>
+            <p style="font-size:16px; font-weight:bold; color:#2c7;">{load_factor:.2f}</p>
         </div>
         """, unsafe_allow_html=True
     )
