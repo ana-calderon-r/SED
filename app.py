@@ -413,7 +413,9 @@ with colC:
         </div>
         """, unsafe_allow_html=True
     )
-    
+
+st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True) 
+
 # Ratios visuales 
 
 import streamlit as st
