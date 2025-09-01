@@ -114,30 +114,29 @@ st.markdown('''
 # Curva normalizada principal
 
 st.subheader("📈 Curva normalizada")
+fig1, ax1 = plt.subplots(figsize=(6, 4))
+ax1.plot(
+    curva_promedio['HoraMinuto'],
+    curva_promedio['I_Norm'],
+    color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Normalizada'
+)
 
-    fig1, ax1 = plt.subplots(figsize=(6, 4))
-    ax1.plot(
-        curva_promedio['HoraMinuto'],
-        curva_promedio['I_Norm'],
-        color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Normalizada'
-    )
+# Estilo
+ax1.set_title('Factores Normalizados', fontsize=14, fontweight='bold')
+ax1.set_xlabel('Hora', fontsize=12)
+ax1.set_ylabel('Corriente Normalizada', fontsize=12)
 
-    # Estilo
-    ax1.set_title('Factores Normalizados', fontsize=14, fontweight='bold')
-    ax1.set_xlabel('Hora', fontsize=12)
-    ax1.set_ylabel('Corriente Normalizada', fontsize=12)
+ax1.grid(axis='y', linestyle='--', alpha=0.6)   # solo líneas horizontales
+ax1.set_facecolor("#fafafa")                    # fondo claro
+ax1.legend()
 
-    ax1.grid(axis='y', linestyle='--', alpha=0.6)   # solo líneas horizontales
-    ax1.set_facecolor("#fafafa")                    # fondo claro
-    ax1.legend()
+# Eje X cada 2 horas (ajustable)
+xticks_norm = curva_promedio['HoraMinuto'].iloc[::6]
+ax1.set_xticks(np.arange(len(curva_promedio))[::6])
+ax1.set_xticklabels(xticks_norm, rotation=45, ha='right')
 
-    # Eje X cada 2 horas (ajustable)
-    xticks_norm = curva_promedio['HoraMinuto'].iloc[::6]
-    ax1.set_xticks(np.arange(len(curva_promedio))[::6])
-    ax1.set_xticklabels(xticks_norm, rotation=45, ha='right')
-
-    plt.tight_layout()
-    st.pyplot(fig1)
+plt.tight_layout()
+st.pyplot(fig1)
 
 # Corriente promedio por hora y Voltaje promedio por hora juntos
 col1, col2 = st.columns(2)
