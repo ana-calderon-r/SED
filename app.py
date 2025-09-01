@@ -113,7 +113,6 @@ st.markdown('''
 
 # Curva normalizada principal
 
-st.subheader("📈 Curva normalizada")
 fig1, ax1 = plt.subplots(figsize=(6, 4))
 ax1.plot(
     curva_promedio['HoraMinuto'],
@@ -122,9 +121,8 @@ ax1.plot(
 )
 
 # Estilo
-ax1.set_title('Factores Normalizados', fontsize=14, fontweight='bold')
-ax1.set_xlabel('Hora', fontsize=12)
-ax1.set_ylabel('Corriente Normalizada', fontsize=12)
+ax1.set_title('Factores normalizados', fontsize=14, fontweight='bold')
+ax1.set_ylabel('Magnitudes normalizadas', fontsize=12)
 
 ax1.grid(axis='y', linestyle='--', alpha=0.6)   # solo líneas horizontales
 ax1.set_facecolor("#fafafa")                    # fondo claro
