@@ -428,4 +428,4 @@ st.progress(min(ratio_madrug/2, 1.0))
 st.caption(f"Madrugada/Media: {ratio_madrug:.2f}")
 
 st.progress(min(std_shape/0.5, 1.0))
-st.caption(f"Desviación forma: {std_shape:.2f}")
+st.caption(f"Desviación forma: {std_shape:.2f}") 
