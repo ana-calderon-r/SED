@@ -120,7 +120,7 @@ with col_center:
     fig1, ax1 = plt.subplots(figsize=(4, 3), dpi=100)
     ax1.plot(
         curva_norm['HoraMinuto'],
-        curva_norm['Valor'],
+        curva_norm['I_Norm'],
         color='#2196F3', linewidth=2.2, marker='o', markersize=3
     )
     ax1.set_title('Curva Normalizada', fontsize=14, fontweight='bold')
