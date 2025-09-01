@@ -135,17 +135,26 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("Corriente promedio por hora")
-    fig2, ax2 = plt.subplots(figsize=(6, 4))
-    ax2.plot(curva_I_prom['HoraMinuto'], curva_I_prom['I_Total']/3, color='orange')
-    ax2.set_title('Corriente Promedio')
-    ax2.set_xlabel('Hora')
-    ax2.set_ylabel('Corriente (A)')
-    ax2.grid(True)
 
-    import numpy as np
-    xticks_I = curva_I_prom['HoraMinuto'].iloc[::6]  # cada hora
+    fig2, ax2 = plt.subplots(figsize=(6, 4))
+    ax2.plot(
+        curva_I_prom['HoraMinuto'], 
+        curva_I_prom['I_Total']/3, 
+        color='#FF9800', linewidth=2.2, marker='o', markersize=3
+    )
+
+    # Estilo
+    ax2.set_title('Corriente Promedio', fontsize=14, fontweight='bold')
+    ax2.set_xlabel('Hora', fontsize=12)
+    ax2.set_ylabel('Corriente (A)', fontsize=12)
+
+    ax2.grid(axis='y', linestyle='--', alpha=0.6)   # solo líneas horizontales
+    ax2.set_facecolor("#fafafa")                    # fondo claro
+
+    # Eje X cada 2 horas
+    xticks_I = curva_I_prom['HoraMinuto'].iloc[::6]
     ax2.set_xticks(np.arange(len(curva_I_prom))[::6])
-    ax2.set_xticklabels(xticks_I, rotation=45)
+    ax2.set_xticklabels(xticks_I, rotation=45, ha='right')
 
     plt.tight_layout()
     st.pyplot(fig2)
@@ -383,7 +392,7 @@ with colC:
     st.markdown(
         f"""
         <div style="background:#f9f9f9; padding:12px; border-radius:10px; text-align:center;">
-            <h4 style="margin:0; color:#444;">Load factor</h4>
+            <h4 style="margin:0; color:#444;">Factor de carga</h4>
             <p style="font-size:20px; font-weight:bold; color:#2c7;">{load_factor:.2f}</p>
         </div>
         """, unsafe_allow_html=True
