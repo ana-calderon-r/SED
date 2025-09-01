@@ -5,6 +5,10 @@ import os
 import numpy as np
 import base64
 
+from streamlit_folium import st_folium
+import geopandas as gpd
+import folium
+
 st.set_page_config(layout="wide")
 
 # ======= Encabezado con Logo =======
@@ -369,3 +373,69 @@ st.caption(
     "Residencial → pico noche y baja madrugada; Comercial → fuerte en 9–18; "
     "Industrial → curva plana con actividad 24h."
 )
+
+# ================== MAPA DE DISTRITOS ENEL PLUZ ==================
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown('''
+    <h2 id="mapa" style="
+        color: black; 
+        background-color: #FFE45C; 
+        padding: 14px 24px; 
+        border-radius: 10px; 
+        font-size: 18px;
+    ">
+        Mapa de Distritos ENEL Pluz
+    </h2>
+''', unsafe_allow_html=True)
+
+# --- Cargar shapefile ---
+shapefile_path = "data/lima_callao_distritos.shp"
+distritos = gpd.read_file(shapefile_path)
+
+# --- Distritos exclusivos (52) ---
+distritos_pluz = [
+    "Carabayllo","Ancón","Puente Piedra","Santa Rosa","Comas","Independencia",
+    "Los Olivos","San Martín de Porres","Rímac","Lima","La Victoria","Breña",
+    "Pueblo Libre","San Miguel","Magdalena del Mar","Jesús María","San Isidro",
+    "El Agustino","San Juan de Lurigancho","Bellavista","La Perla","La Punta",
+    "Carmen de la Legua-Reynoso","Callao","Ventanilla","Mi Perú",
+    "Huaura","Huacho","Hualmay","Caleta de Carquín","Santa María","Végueta",
+    "Ámbar","Checras","Leoncio Prado","Santa Leonor","Paccho","Sayán",
+    "Huaral","Chancay","Aucallama","Atavillos Alto","Atavillos Bajo","Ihuarí",
+    "Sumbilca","San Miguel de Acos","Veintisiete de Noviembre","Santa Cruz de Andamarca",
+    "Lampián","Pacaraos",
+    "Canta","Arahuay","Huamantanga","Huaros","Lachaqui","San Buenaventura","Santa Rosa de Quives"
+]
+
+# --- Distritos compartidos (5) ---
+distritos_compartidos = [
+    "San Isidro","Jesús María","El Agustino","La Victoria","San Antonio de Chaclla"
+]
+
+# --- Filtrar ---
+pluz_exclusivos = distritos[distritos["NOMB_DIST"].isin(distritos_pluz)]
+pluz_compartidos = distritos[distritos["NOMB_DIST"].isin(distritos_compartidos)]
+
+# --- Crear mapa Folium ---
+m = folium.Map(location=[-12.0464, -77.0428], zoom_start=9)
+
+# Exclusivos → Azul
+folium.GeoJson(
+    pluz_exclusivos,
+    name="Distritos Exclusivos",
+    style_function=lambda x: {"fillColor":"blue","color":"blue","weight":1,"fillOpacity":0.4},
+    tooltip=folium.GeoJsonTooltip(fields=["NOMB_DIST"], aliases=["Distrito"])
+).add_to(m)
+
+# Compartidos → Rojo
+folium.GeoJson(
+    pluz_compartidos,
+    name="Distritos Compartidos",
+    style_function=lambda x: {"fillColor":"red","color":"red","weight":1,"fillOpacity":0.5},
+    tooltip=folium.GeoJsonTooltip(fields=["NOMB_DIST"], aliases=["Distrito"])
+).add_to(m)
+
+folium.LayerControl().add_to(m)
+
+# Mostrar en Streamlit
+st_folium(m, width=1000, height=600)
