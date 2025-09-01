@@ -113,7 +113,7 @@ st.markdown('''
 
 # Curva normalizada principal
 
-    st.subheader("📈 Curva normalizada")
+st.subheader("📈 Curva normalizada")
 
     fig1, ax1 = plt.subplots(figsize=(6, 4))
     ax1.plot(
