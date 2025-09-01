@@ -113,7 +113,7 @@ st.markdown('''
 
 # Curva normalizada principal
 
-fig1, ax1 = plt.subplots(figsize=(6, 4), dpi=80)  # tamaño real
+fig1, ax1 = plt.subplots(figsize=(6, 4), dpi=120)  # tamaño real
 ax1.plot(
     curva_promedio['HoraMinuto'],
     curva_promedio['I_Norm'],
