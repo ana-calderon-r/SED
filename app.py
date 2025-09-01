@@ -120,8 +120,8 @@ ax1.plot(
     color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Normalizada'
 )
 
-ax1.set_title('Factores Normalizados', fontsize=12, fontweight='bold')
-ax1.set_ylabel('Corriente Normalizada', fontsize=12)
+ax1.set_title('Factores Normalizados', fontsize=10, fontweight='bold')
+ax1.set_ylabel('Corriente Normalizada', fontsize=10)
 ax1.grid(axis='y', linestyle='--', alpha=0.6)
 ax1.set_facecolor("#fafafa")
 
@@ -145,7 +145,7 @@ with col1:
 
     # Estilo
     ax2.set_title('Corriente Promedio', fontsize=12, fontweight='bold')
-    ax2.set_ylabel('Corriente (A)', fontsize=12)
+    ax2.set_ylabel('Corriente (A)', fontsize=10)
 
     ax2.grid(axis='y', linestyle='--', alpha=0.6)   # solo líneas horizontales
     ax2.set_facecolor("#fafafa")                    # fondo claro
@@ -169,7 +169,7 @@ with col2:
 
     # Estilo
     ax3.set_title('Voltaje Promedio', fontsize=12, fontweight='bold')
-    ax3.set_ylabel('Voltaje (V)', fontsize=12)
+    ax3.set_ylabel('Voltaje (V)', fontsize=10)
 
     ax3.grid(axis='y', linestyle='--', alpha=0.6)
     ax3.set_facecolor("#fafafa")
