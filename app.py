@@ -56,6 +56,7 @@ st.markdown("""
         <a href="#diagramas">Diagramas</a>
         <a href="#datos">Datos</a>
         <a href="#calculadora">Calculadora</a>
+        <a href="#calculadora">Clasificacion</a>
     </div>
 """, unsafe_allow_html=True)
 
@@ -113,8 +114,9 @@ st.markdown('''
 
 # Curva normalizada principal
 # Selector para elegir el gráfico
+
 opcion = st.selectbox(
-    "📊 Selecciona la curva a visualizar:",
+    "Selecciona la curva a visualizar:",
     ["Factores Normalizados", "Corriente Promedio", "Voltaje Promedio"]
 )
 
@@ -177,9 +179,6 @@ with col2:
 
         plt.tight_layout()
         st.pyplot(fig3, use_container_width=False)
-
-
-
 
 # DATOS
 
@@ -296,6 +295,18 @@ except IndexError:
 
 
 # ================== CLASIFICACIÓN POR FORMA DE CURVA (HEURÍSTICO) ==================
+st.markdown('''
+    <h2 id="clasificacion" style="
+        color: black; 
+        background-color: #FFE45C; 
+        padding: 14px 24px; 
+        border-radius: 10px; 
+        font-size: 18px;
+    ">
+        clasificacion
+    </h2>
+''', unsafe_allow_html=True)
+
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('''
     <h2 id="clasificacion" style="
@@ -305,7 +316,7 @@ st.markdown('''
         border-radius: 10px; 
         font-size: 18px;
     ">
-        Clasificación por forma de curva
+        Clasificación
     </h2>
 ''', unsafe_allow_html=True)
 
