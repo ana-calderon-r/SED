@@ -418,27 +418,27 @@ with colC:
 
 import streamlit as st
 
-st.write("###Ratios por franja horaria")
+st.write("Ratios por franja horaria")
 
 # Crear columnas para mostrar los ratios en línea
 col1, col2, col3, col4 = st.columns(4)
 
 # Noche
 with col1:
-    st.metric(label="🌙 Noche / Media", value=f"{ratio_noche:.2f}")
+    st.metric(label="Noche / Media", value=f"{ratio_noche:.2f}")
     st.progress(min(ratio_noche/2, 1.0))
 
 # Laboral
 with col2:
-    st.metric(label="💼 Laboral / Media", value=f"{ratio_laboral:.2f}")
+    st.metric(label="Laboral / Media", value=f"{ratio_laboral:.2f}")
     st.progress(min(ratio_laboral/2, 1.0))
 
 # Madrugada
 with col3:
-    st.metric(label="🌃 Madrugada / Media", value=f"{ratio_madrug:.2f}")
+    st.metric(label="Madrugada / Media", value=f"{ratio_madrug:.2f}")
     st.progress(min(ratio_madrug/2, 1.0))
 
 # Desviación de forma
 with col4:
-    st.metric(label="📐 Desviación forma", value=f"{std_shape:.2f}")
+    st.metric(label="Desviación forma", value=f"{std_shape:.2f}")
     st.progress(min(std_shape/0.5, 1.0))
