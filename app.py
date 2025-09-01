@@ -158,20 +158,28 @@ with col1:
     st.pyplot(fig2)
 
 with col2:
-    st.subheader("Voltaje promedio por hora")
-    fig3, ax3 = plt.subplots(figsize=(6, 4))
-    ax3.plot(curva_V_prom['HoraMinuto'], curva_V_prom['V_Total'], color='green')
-    ax3.set_title('Voltaje Promedio')
-    ax3.set_xlabel('Hora')
-    ax3.set_ylabel('Voltaje (V)')
-    ax3.grid(True)
 
-    xticks_V = curva_V_prom['HoraMinuto'].iloc[::6]  # cada hora
+    fig3, ax3 = plt.subplots(figsize=(6, 4))
+    ax3.plot(
+        curva_V_prom['HoraMinuto'], 
+        curva_V_prom['V_Total'], 
+        color='#4CAF50', linewidth=2.2, marker='o', markersize=3
+    )
+
+    # Estilo
+    ax3.set_title('Voltaje Promedio', fontsize=14, fontweight='bold')
+    ax3.set_ylabel('Voltaje (V)', fontsize=12)
+
+    ax3.grid(axis='y', linestyle='--', alpha=0.6)
+    ax3.set_facecolor("#fafafa")
+
+    xticks_V = curva_V_prom['HoraMinuto'].iloc[::6]
     ax3.set_xticks(np.arange(len(curva_V_prom))[::6])
-    ax3.set_xticklabels(xticks_V, rotation=45)
+    ax3.set_xticklabels(xticks_V, rotation=45, ha='right')
 
     plt.tight_layout()
     st.pyplot(fig3)
+
 # DATOS
 
 st.markdown('''
