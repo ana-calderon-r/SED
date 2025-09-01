@@ -302,7 +302,6 @@ except IndexError:
     
 # CLASIFICACIÓN
 
-st.markdown("<br>", unsafe_allow_html=True)
 st.markdown('''
     <h2 id="clasificacion" style="
         color: black; 
@@ -314,6 +313,8 @@ st.markdown('''
         Clasificación
     </h2>
 ''', unsafe_allow_html=True)
+
+st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True)
 
 # Asegurar orden por hora
 curva_ord = curva_promedio.sort_values("HoraMinuto").reset_index(drop=True)
