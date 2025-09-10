@@ -86,7 +86,7 @@ df['Fecha'] = df['starttime'].dt.date
 df['HoraMinuto'] = df['starttime'].dt.strftime('%H:%M')
 df['I_Total'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg'])
 df['I_Promedio'] = df['I_Total'] / 3
-df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg'])
+df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3
 
 def normalizar_dia(grupo):
 
