@@ -96,7 +96,7 @@ def normalizar_dia(grupo):
 
     # Normalización voltaje
     max_voltaje = grupo['V_Total'].max()
-    grupo['V_Norm'] = grupo['V_Total'] / max_corriente
+    grupo['V_Norm'] = grupo['V_Total'] / max_voltaje
 
     return grupo
 
