@@ -86,16 +86,24 @@ df['Fecha'] = df['starttime'].dt.date
 df['HoraMinuto'] = df['starttime'].dt.strftime('%H:%M')
 df['I_Total'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg'])
 df['I_Promedio'] = df['I_Total'] / 3
-df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3
+df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg'])
 
 def normalizar_dia(grupo):
+
+    # Normalización corriente
     max_corriente = grupo['I_Total'].max()
     grupo['I_Norm'] = grupo['I_Total'] / max_corriente
+
+    # Normalización voltaje
+    max_voltaje = grupo['V_Total'].max()
+    grupo['V_Norm'] = grupo['V_Total'] / max_corriente
+
     return grupo
 
 df_norm = df.groupby('Fecha', group_keys=False).apply(normalizar_dia)
 
-curva_promedio = df_norm.groupby('HoraMinuto')['I_Norm'].mean().reset_index()
+curva_promedio_I = df_norm.groupby('HoraMinuto')['I_Norm'].mean().reset_index()
+curva_promedio_V = df_norm.groupby('HoraMinuto')['V_Norm'].mean().reset_index()
 curva_I_prom = df.groupby('HoraMinuto')['I_Total'].mean().reset_index()
 curva_V_prom = df.groupby('HoraMinuto')['V_Total'].mean().reset_index()
 
@@ -130,17 +138,22 @@ with col2:
     if opcion == "Factores Normalizados":
         fig1, ax1 = plt.subplots(figsize=(6, 3.5), dpi=120)  
         ax1.plot(
-            curva_promedio['HoraMinuto'],
-            curva_promedio['I_Norm'],
-            color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Normalizada'
+            curva_promedio_I['HoraMinuto'],
+            curva_promedio_I['I_Norm'],
+            color='#2196F3', linewidth=2.2, marker='o', markersize=3, label='Corriente Normalizada'
+        )
+        ax1.plot(
+            curva_promedio_V['HoraMinuto'],
+            curva_promedio_V['V_Norm'],
+            color='#E91E63', linewidth=2.2, marker='o', markersize=3, label='Voltaje Normalizado'
         )
         ax1.set_title('Factores Normalizados', fontsize=11, fontweight='bold')
-        ax1.set_ylabel('Corriente Normalizada', fontsize=10)
+        ax1.set_ylabel('Valor Normalizado', fontsize=10)
         ax1.grid(axis='y', linestyle='--', alpha=0.6)
         ax1.set_facecolor("#fafafa")
 
-        xticks_norm = curva_promedio['HoraMinuto'].iloc[::6]
-        ax1.set_xticks(np.arange(len(curva_promedio))[::6])
+        xticks_norm = curva_promedio_I['HoraMinuto'].iloc[::6]
+        ax1.set_xticks(np.arange(len(curva_promedio_I))[::6])
         ax1.set_xticklabels(xticks_norm, rotation=45, ha='right')
 
         plt.tight_layout()
@@ -438,9 +451,3 @@ with col2:
 # Madrugada
 with col3:
     st.metric(label="Madrugada / Media", value=f"{ratio_madrug:.2f}")
-    st.progress(min(ratio_madrug/2, 1.0))
-
-# Desviación de forma
-with col4:
-    st.metric(label="Desviación forma", value=f"{std_shape:.2f}")
-    st.progress(min(std_shape/0.5, 1.0))
