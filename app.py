@@ -86,7 +86,8 @@ df['Fecha'] = df['starttime'].dt.date
 df['HoraMinuto'] = df['starttime'].dt.strftime('%H:%M')
 df['I_Total'] = (df['I1Avg'] + df['I2Avg'] + df['I3Avg'])
 df['I_Promedio'] = df['I_Total'] / 3
-df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg']) / 3
+df['V_Total'] = (df['U1Avg'] + df['U2Avg'] + df['U3Avg'])
+df['V_Promedio'] = df['V_Total'] / 3
 
 def normalizar_dia(grupo):
 
@@ -182,7 +183,7 @@ with col2:
         fig3, ax3 = plt.subplots(figsize=(6, 3.5), dpi=120)  
         ax3.plot(
             curva_V_prom['HoraMinuto'], 
-            curva_V_prom['V_Total'], 
+            curva_V_prom['V_Total']/3, 
             color='#4CAF50', linewidth=2.2, marker='o', markersize=3
         )
         ax3.set_title('Voltaje Promedio', fontsize=11, fontweight='bold')
