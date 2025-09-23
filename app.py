@@ -353,7 +353,7 @@ st.markdown('''
 st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True)
 
 # Asegurar orden por hora
-curva_ord = curva_promedio_corriente.sort_values("HoraMinuto").reset_index(drop=True)
+curva_ord = curva_promedio_I.sort_values("HoraMinuto").reset_index(drop=True)
 serie = curva_ord["I_Norm"].values
 horas = curva_ord["HoraMinuto"].values
 
