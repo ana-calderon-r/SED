@@ -30,7 +30,7 @@ menu_options = {
     "Diagramas": "#diagramas",
     "Datos": "#datos",
     "Calculadora": "#calculadora",
-    "Calculadora": "#clasificacion"
+    "Clasificacion": "#clasificacion"
 }
 
 st.markdown("""
@@ -57,7 +57,7 @@ st.markdown("""
         <a href="#diagramas">Diagramas</a>
         <a href="#datos">Datos</a>
         <a href="#calculadora">Calculadora</a>
-        <a href="#calculadora">Clasificacion</a>
+        <a href="#clasificacion">Clasificacion</a>
     </div>
 """, unsafe_allow_html=True)
 
@@ -112,7 +112,7 @@ curva_V_prom = df.groupby('HoraMinuto')['V_Total'].mean().reset_index()
 # DIAGRAMAS
 
 st.markdown('''
-    <h2 id="calculadora" style="
+    <h2 id="diagramas" style="
         color: black; 
         background-color: #FFE45C; 
         padding: 14px 24px; 
@@ -202,7 +202,7 @@ with col2:
 # DATOS
 
 st.markdown('''
-    <h2 id="calculadora" style="
+    <h2 id="datos" style="
         color: black; 
         background-color: #FFE45C; 
         padding: 14px 24px; 
