@@ -313,11 +313,11 @@ try:
 
     # intervalo de confianza con t-student
     t_val_corriente = stats.t.ppf(0.975, n_corriente-1)
-    ic_inf = media_ratio_corriente - t_val_corriente * (desv_std_corriente / np.sqrt(n))
-    ic_sup = media_ratio_corriente + t_val_corriente * (desv_std_corriente / np.sqrt(n))
+    ic_inf = media_ratio_corriente - t_val_corriente * (desv_std_corriente / np.sqrt(n_corriente))
+    ic_sup = media_ratio_corriente + t_val_corriente * (desv_std_corriente / np.sqrt(n_corriente))
     t_val_voltaje = stats.t.ppf(0.975, n_voltaje-1)
-    vc_inf = media_ratio_voltaje - t_val_voltaje * (desv_std_voltaje / np.sqrt(n))
-    vc_sup = media_ratio_voltaje + t_val_voltaje * (desv_std_voltaje / np.sqrt(n))
+    vc_inf = media_ratio_voltaje - t_val_voltaje * (desv_std_voltaje / np.sqrt(n_voltaje))
+    vc_sup = media_ratio_voltaje + t_val_voltaje * (desv_std_voltaje / np.sqrt(n_voltaje))
     
     # aplicar al valor medido
     I_estimado = corriente_medida * media_ratio_corriente
