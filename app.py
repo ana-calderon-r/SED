@@ -478,5 +478,5 @@ with col3:
 
 # Mañana
 with col4:
-    st.metric(label="Maniana / Media", value=f"{ratio_madrug:.2f}")
+    st.metric(label="Maniana / Media", value=f"{ratio_maniana:.2f}")
     st.progress(min(ratio_maniana/2, 1.0))
