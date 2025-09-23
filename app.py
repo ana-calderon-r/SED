@@ -290,9 +290,15 @@ try:
     valores_medida_voltaje = df_norm[df_norm['HoraMinuto'] == hora_medida].sort_values('Fecha')['V_Norm'].values
     valores_objetivo_voltaje = df_norm[df_norm['HoraMinuto'] == hora_objetivo].sort_values('Fecha')['V_Norm'].values
 
-    if len(valores_medida) == 0 or len(valores_objetivo) == 0:
+    if (
+    len(valores_medida_corriente) == 0 or 
+    len(valores_objetivo_corriente) == 0 or
+    len(valores_medida_voltaje) == 0 or 
+    len(valores_objetivo_voltaje) == 0
+):
+    
         raise IndexError
-
+    
     # ratios diarios (objetivo / medida)
     ratios = valores_objetivo / valores_medida
 
