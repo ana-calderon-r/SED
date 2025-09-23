@@ -300,25 +300,32 @@ try:
         raise IndexError
     
     # ratios diarios (objetivo / medida)
-    ratios = valores_objetivo / valores_medida
+    ratios_corriente = valores_objetivo_corriente / valores_medida_corriente
+    ratios_voltaje = valores_objetivo_voltaje / valores_medida_voltaje
 
     # media y desviación estándar
-    media_ratio = np.mean(ratios)
-    desv_std = np.std(ratios, ddof=1)
-    n = len(ratios)
+    media_ratio_corriente = np.mean(ratios_corriente)
+    media_ratio_voltaje = np.mean(ratios_voltaje)
+    desv_std_corriente = np.std(ratios_corriente, ddof=1)
+    desv_std_voltaje = np.std(ratios_voltaje, ddof=1)
+    n_corriente = len(ratios_corriente)
+    n_voltaje = len(ratios_voltaje)
 
     # intervalo de confianza con t-student
-    t_val = stats.t.ppf(0.975, n-1)
-    ic_inf = media_ratio - t_val * (desv_std / np.sqrt(n))
-    ic_sup = media_ratio + t_val * (desv_std / np.sqrt(n))
-
+    t_val_corriente = stats.t.ppf(0.975, n_corriente-1)
+    ic_inf = media_ratio_corriente - t_val_corriente * (desv_std_corriente / np.sqrt(n))
+    ic_sup = media_ratio_corriente + t_val_corriente * (desv_std_corriente / np.sqrt(n))
+    t_val_voltaje = stats.t.ppf(0.975, n_voltaje-1)
+    vc_inf = media_ratio_voltaje - t_val_voltaje * (desv_std_voltaje / np.sqrt(n))
+    vc_sup = media_ratio_voltaje + t_val_voltaje * (desv_std_voltaje / np.sqrt(n))
+    
     # aplicar al valor medido
-    I_estimado = corriente_medida * media_ratio
+    I_estimado = corriente_medida * media_ratio_corriente
     I_estimado_inf = corriente_medida * ic_inf
     I_estimado_sup = corriente_medida * ic_sup
-    V_estimado = voltaje_medido * media_ratio
-    V_estimado_inf = voltaje_medido * ic_inf
-    V_estimado_sup = voltaje_medido * ic_sup
+    V_estimado = voltaje_medido * media_ratio_voltaje
+    V_estimado_inf = voltaje_medido * vc_inf
+    V_estimado_sup = voltaje_medido * vc_sup
 
     # resultados
     st.success(f"Estimación de corriente a las {hora_objetivo}: **{I_estimado:.2f} A**")
