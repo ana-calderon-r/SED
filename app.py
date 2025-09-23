@@ -280,12 +280,15 @@ from scipy import stats
 
 hora_medida = st.text_input("Hora de medición (formato HH:MM)", value="09:00")
 corriente_medida = st.number_input("Corriente medida en esa hora (A)", value=100.0)
-hora_objetivo = st.text_input("Hora a estimar la corriente (formato HH:MM)", value="19:00")
+voltaje_medido = st.number_input("Voltaje medido en esa hora (V)", value=200.0) #AGREGADO
+hora_objetivo = st.text_input("Hora de estimación (formato HH:MM)", value="19:00")
 
 try:
     # extraer valores normalizados de los 7 días para ambas horas
-    valores_medida = df_norm[df_norm['HoraMinuto'] == hora_medida].sort_values('Fecha')['I_Norm'].values
-    valores_objetivo = df_norm[df_norm['HoraMinuto'] == hora_objetivo].sort_values('Fecha')['I_Norm'].values
+    valores_medida_corriente = df_norm[df_norm['HoraMinuto'] == hora_medida].sort_values('Fecha')['I_Norm'].values
+    valores_objetivo_corriente = df_norm[df_norm['HoraMinuto'] == hora_objetivo].sort_values('Fecha')['I_Norm'].values
+    valores_medida_voltaje = df_norm[df_norm['HoraMinuto'] == hora_medida].sort_values('Fecha')['V_Norm'].values
+    valores_objetivo_voltaje = df_norm[df_norm['HoraMinuto'] == hora_objetivo].sort_values('Fecha')['V_Norm'].values
 
     if len(valores_medida) == 0 or len(valores_objetivo) == 0:
         raise IndexError
@@ -307,10 +310,15 @@ try:
     I_estimado = corriente_medida * media_ratio
     I_estimado_inf = corriente_medida * ic_inf
     I_estimado_sup = corriente_medida * ic_sup
+    V_estimado = voltaje_medido * media_ratio
+    V_estimado_inf = voltaje_medido * ic_inf
+    V_estimado_sup = voltaje_medido * ic_sup
 
     # resultados
     st.success(f"Estimación de corriente a las {hora_objetivo}: **{I_estimado:.2f} A**")
-    st.info(f"Intervalo de confianza 95%: [{I_estimado_inf:.2f}, {I_estimado_sup:.2f}] A")
+    st.info(f"Intervalo de confianza 95% - Corriente: [{I_estimado_inf:.2f}, {I_estimado_sup:.2f}] A")
+    st.success(f"Estimación de voltaje a las {hora_objetivo}: **{V_estimado:.2f} A**")
+    st.info(f"Intervalo de confianza 95% - Voltaje: [{V_estimado_inf:.2f}, {V_estimado_sup:.2f}] A")
 
 except IndexError:
     st.error("Una de las horas ingresadas no se encuentra en los datos.")
