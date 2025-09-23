@@ -331,7 +331,7 @@ try:
     st.success(f"Estimación de corriente a las {hora_objetivo}: **{I_estimado:.2f} A**")
     st.info(f"Intervalo de confianza 95% - Corriente: [{I_estimado_inf:.2f}, {I_estimado_sup:.2f}] A")
     st.success(f"Estimación de voltaje a las {hora_objetivo}: **{V_estimado:.2f} V**")
-    st.info(f"Intervalo de confianza 95% - Voltaje: [{V_estimado_inf:.2f}, {V_estimado_sup:.2f}] A")
+    st.info(f"Intervalo de confianza 95% - Voltaje: [{V_estimado_inf:.2f}, {V_estimado_sup:.2f}] V")
 
 except IndexError:
     st.error("Una de las horas ingresadas no se encuentra en los datos.")
